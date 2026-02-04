@@ -16,7 +16,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Kuvalaya-mālā: Story Meets IKS",
+  title: "Kuvalaya-mālā: Story of a Crown without Peace",
   description: "An interactive journey through the 8th-century Jain text by Uddyotana Sūri.",
 };
 
