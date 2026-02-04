@@ -1,0 +1,63 @@
+"use client";
+
+import React from "react";
+import { motion } from "framer-motion";
+import { Feather, Hourglass, Languages, ScrollText } from "lucide-react";
+import Section from "@/components/ui/Section";
+
+const contextItems = [
+    {
+        icon: Feather,
+        label: "Author",
+        value: "Uddyotana Sūri",
+    },
+    {
+        icon: Hourglass,
+        label: "Time Period",
+        value: "8th Century CE",
+    },
+    {
+        icon: Languages,
+        label: "Language",
+        value: "Prakrit",
+    },
+];
+
+export default function Context() {
+    return (
+        <Section id="context" background="stone" className="py-24">
+            <div className="max-w-4xl mx-auto text-center">
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    className="mb-16"
+                >
+                    <ScrollText className="w-10 h-10 text-maroon mx-auto mb-4 opacity-50" />
+                    <p className="text-2xl md:text-3xl font-serif text-ink italic leading-relaxed mb-6">
+                        "In a world of dry instruction, stories differ.<br />
+                        They are the sugar-coating that makes the medicine of wisdom sweet."
+                    </p>
+                    <p className="text-sm uppercase tracking-widest text-ink/50">— Adapted from text introduction</p>
+                </motion.div>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    {contextItems.map((item, index) => (
+                        <motion.div
+                            key={index}
+                            initial={{ opacity: 0, y: 10 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: index * 0.2 }}
+                            className="flex flex-col items-center p-6 border-t border-b border-ink/10"
+                        >
+                            <item.icon className="w-6 h-6 text-maroon mb-3 opacity-70" />
+                            <span className="text-xs uppercase tracking-widest text-ink/50 mb-1">{item.label}</span>
+                            <span className="font-serif text-xl text-ink font-medium">{item.value}</span>
+                        </motion.div>
+                    ))}
+                </div>
+            </div>
+        </Section>
+    );
+}

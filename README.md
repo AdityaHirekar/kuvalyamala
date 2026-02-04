@@ -1,36 +1,66 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Kuvalaya-mālā Interactive Experience
 
-## Getting Started
+An educational website for the 8th-century IKS text "Kuvalaya-mālā". Built with Next.js, Tailwind CSS, and Framer Motion.
 
-First, run the development server:
+## 🚀 Getting Started
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### Prerequisites
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- Node.js 18+ installed
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Installation
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1.  Clone the repository:
+    ```bash
+    git clone https://github.com/your-repo/kuvalyamala.git
+    cd kuvalyamala
+    ```
 
-## Learn More
+2.  Install dependencies:
+    ```bash
+    npm install
+    # or
+    npm install --legacy-peer-deps
+    ```
 
-To learn more about Next.js, take a look at the following resources:
+3.  Run the development server:
+    ```bash
+    npm run dev
+    ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+4.  Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 📂 Project Structure
 
-## Deploy on Vercel
+-   `src/components/ui/`: Reusable UI components (Button, Card, Modal, Section).
+-   `src/components/sections/`: Page sections (Hero, Story, Knowledge, etc.).
+-   `src/app/globals.css`: Global styles, colors, and fonts configuration.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🎨 Customization
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### text content
+Edit the files in `src/components/sections/` to update text content. Data is often stored in arrays at the top of the component files (e.g., `storySteps` in `Story.tsx`).
+
+### Audio & Narrations (New)
+The project supports a 10-minute self-narrated experience.
+-   **Audio Files**: Place MP3 files in `public/audio/`.
+-   **File Naming**:
+    -   Intro: `intro.mp3`
+    -   Chapters: `chapter-1.mp3`, `chapter-2.mp3`, etc.
+-   **Recording**: Ensure audio is compressed (MP3, 128kbps) for fast loading.
+-   **Controls**:
+    -   **Play**: Click the circular play button next to chapter titles.
+    -   **Global Mute**: Use the floating speaker icon (bottom-right) to mute all audio instantly.
+
+### Colors & Fonts
+Theme is configured in `src/app/globals.css`.
+-   `--color-paper`: Background color
+-   `--color-ink`: Primary text color
+-   `--color-maroon`: Primary accent
+
+## 📦 Deployment
+
+The app is ready for Vercel.
+1.  Push to GitHub.
+2.  Import project in Vercel.
+3.  Deploy.
