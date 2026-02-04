@@ -5,13 +5,13 @@ import { motion } from "framer-motion";
 
 export default function Frame() {
     return (
-        <div className="fixed inset-0 z-50 pointer-events-none overflow-hidden hidden md:block">
+        <div className="fixed inset-0 z-50 pointer-events-none overflow-hidden">
             {/* Top Left Corner */}
             <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.5, duration: 1 }}
-                className="absolute top-4 left-4 w-32 h-32 text-maroon/30"
+                className="absolute top-2 left-2 md:top-4 md:left-4 w-20 h-20 md:w-32 md:h-32 text-maroon/30"
             >
                 <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-full h-full opacity-80">
                     {/* Main Curve */}
@@ -38,7 +38,7 @@ export default function Frame() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.5, duration: 1 }}
-                className="absolute top-4 right-4 w-32 h-32 text-maroon/30 rotate-90"
+                className="absolute top-2 right-2 md:top-4 md:right-4 w-20 h-20 md:w-32 md:h-32 text-maroon/30 rotate-90"
             >
                 <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-full h-full opacity-80">
                     <path d="M0,0 Q60,0 60,60" />
@@ -60,7 +60,7 @@ export default function Frame() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.5, duration: 1 }}
-                className="absolute bottom-4 right-4 w-32 h-32 text-maroon/30 rotate-180"
+                className="absolute bottom-2 right-2 md:bottom-4 md:right-4 w-20 h-20 md:w-32 md:h-32 text-maroon/30 rotate-180"
             >
                 <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-full h-full opacity-80">
                     <path d="M0,0 Q60,0 60,60" />
@@ -82,7 +82,7 @@ export default function Frame() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.5, duration: 1 }}
-                className="absolute bottom-4 left-4 w-32 h-32 text-maroon/30 -rotate-90"
+                className="absolute bottom-2 left-2 md:bottom-4 md:left-4 w-20 h-20 md:w-32 md:h-32 text-maroon/30 -rotate-90"
             >
                 <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-full h-full opacity-80">
                     <path d="M0,0 Q60,0 60,60" />
@@ -100,7 +100,7 @@ export default function Frame() {
             </motion.div>
 
             {/* Border */}
-            <div className="absolute top-8 left-8 right-8 bottom-8 border-[0.5px] border-maroon/20 rounded-[32px] pointer-events-none" />
+            <div className="absolute top-4 left-4 right-4 bottom-4 md:top-8 md:left-8 md:right-8 md:bottom-8 border-[0.5px] border-maroon/20 rounded-[20px] md:rounded-[32px] pointer-events-none" />
         </div>
     );
 }
