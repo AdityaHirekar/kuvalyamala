@@ -65,7 +65,7 @@ export default function BackgroundVerse({ chapterId, onReveal }: BackgroundVerse
     if (!verseData || !showBackgroundVerses) return null;
 
     return (
-        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+        <div className="absolute inset-0 overflow-hidden pointer-events-none z-20">
             {fragments.map((frag) => (
                 <motion.div
                     key={frag.id}

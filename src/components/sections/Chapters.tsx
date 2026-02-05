@@ -182,25 +182,27 @@ export default function Chapters() {
                             whileInView={{ opacity: 1, x: 0 }}
                             viewport={{ once: true, margin: "-100px" }}
                             transition={{ duration: 0.8, delay: 0.2 }}
-                            className="flex-1 flex flex-col justify-center pointer-events-auto"
+                            className="flex-1 flex flex-col justify-center"
                         >
-                            <div className="flex items-center gap-4 mb-6">
-                                <span className="text-maroon font-serif font-bold tracking-widest uppercase text-sm">Chapter 0{chapter.id}</span>
-                                <div className="h-px bg-maroon/20 flex-grow" />
-                                <AudioButton track={chapter.audio} />
-                            </div>
+                            <div className="pointer-events-auto">
+                                <div className="flex items-center gap-4 mb-6">
+                                    <span className="text-maroon font-serif font-bold tracking-widest uppercase text-sm">Chapter 0{chapter.id}</span>
+                                    <div className="h-px bg-maroon/20 flex-grow" />
+                                    <AudioButton track={chapter.audio} />
+                                </div>
 
-                            <h2 className="text-3xl md:text-5xl font-serif font-bold text-ink mb-8 leading-tight">{chapter.title}</h2>
+                                <h2 className="text-3xl md:text-5xl font-serif font-bold text-ink mb-8 leading-tight">{chapter.title}</h2>
 
-                            <div className="text-lg md:text-xl leading-loose font-serif text-ink/80 mb-8 text-justify">
-                                <p className="mb-6">
-                                    {chapter.narrative}
-                                </p>
+                                <div className="text-lg md:text-xl leading-loose font-serif text-ink/80 mb-8 text-justify">
+                                    <p className="mb-6">
+                                        {chapter.narrative}
+                                    </p>
 
-                                <div className="flex flex-wrap gap-2 mt-6">
-                                    {chapter.themes.map((theme, i) => (
-                                        <ThemeChip key={i} label={theme.label} onClick={() => setActiveTheme(theme)} />
-                                    ))}
+                                    <div className="flex flex-wrap gap-2 mt-6">
+                                        {chapter.themes.map((theme, i) => (
+                                            <ThemeChip key={i} label={theme.label} onClick={() => setActiveTheme(theme)} />
+                                        ))}
+                                    </div>
                                 </div>
                             </div>
                         </motion.div>
