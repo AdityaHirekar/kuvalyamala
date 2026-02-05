@@ -8,6 +8,10 @@ import Modal from "@/components/ui/Modal";
 import AudioButton from "@/components/ui/AudioButton";
 import Image from "next/image";
 
+import BackgroundVerse from "@/components/ui/BackgroundVerse";
+import VerseRevealModal from "@/components/ui/VerseRevealModal";
+import { verses, VerseData } from "@/lib/verses";
+
 // Interactive Theme Chip Component
 const ThemeChip = ({ label, onClick }: { label: string; onClick: () => void }) => (
     <button
@@ -104,6 +108,7 @@ const chapters = [
 
 export default function Chapters() {
     const [activeTheme, setActiveTheme] = useState<{ label: string; desc: string; modern: string } | null>(null);
+    const [revealedVerse, setRevealedVerse] = useState<VerseData | null>(null);
 
     return (
         <Section id="chapters" background="paper" className="py-0 px-0 md:px-0">
@@ -129,8 +134,12 @@ export default function Chapters() {
             </div>
 
             {chapters.map((chapter, index) => (
-                <div key={chapter.id} className={`py-24 px-6 md:px-12 lg:px-24 ${chapter.bg} min-h-[90vh] flex items-center`}>
-                    <div className={`max-w-6xl mx-auto w-full flex flex-col gap-12 ${chapter.align === "left" ? "md:flex-row" : "md:flex-row-reverse"}`}>
+                <div key={chapter.id} className={`py-24 px-6 md:px-12 lg:px-24 ${chapter.bg} min-h-[90vh] flex items-center relative overflow-hidden`}>
+
+                    {/* Background Verse - Whispers of the Text */}
+                    <BackgroundVerse chapterId={chapter.id} onReveal={() => setRevealedVerse(verses[chapter.id])} />
+
+                    <div className={`max-w-6xl mx-auto w-full flex flex-col gap-12 ${chapter.align === "left" ? "md:flex-row" : "md:flex-row-reverse"} relative z-10`}>
 
                         {/* Image Area */}
                         <motion.div
@@ -215,6 +224,13 @@ export default function Chapters() {
                     </div>
                 )}
             </Modal>
+
+            {/* Verse Reveal Modal */}
+            <VerseRevealModal
+                isOpen={!!revealedVerse}
+                onClose={() => setRevealedVerse(null)}
+                verse={revealedVerse}
+            />
         </Section>
     );
 }
