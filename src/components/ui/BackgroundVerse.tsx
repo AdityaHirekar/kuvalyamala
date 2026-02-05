@@ -27,6 +27,11 @@ export default function BackgroundVerse({ chapterId, onReveal }: BackgroundVerse
 
     // Manage multiple fragments
     const [fragments, setFragments] = useState<FragmentState[]>([]);
+    const [isMounted, setIsMounted] = useState(false);
+
+    useEffect(() => {
+        setIsMounted(true);
+    }, []);
 
     useEffect(() => {
         if (!verseData) return;
@@ -62,7 +67,7 @@ export default function BackgroundVerse({ chapterId, onReveal }: BackgroundVerse
         setFragments(newFragments);
     }, [chapterId, verseData]);
 
-    if (!verseData || !showBackgroundVerses) return null;
+    if (!isMounted || !verseData || !showBackgroundVerses) return null;
 
     return (
         <div className="absolute inset-0 overflow-hidden pointer-events-none z-20">
