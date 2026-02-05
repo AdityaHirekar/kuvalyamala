@@ -93,11 +93,12 @@ export default function BackgroundVerse({ chapterId, onReveal }: BackgroundVerse
                             : {
                                 x: [0, 25, 0, -25, 0],
                                 y: [0, -15, 0, 15, 0],
-                                rotate: [0, 1.5, 0, -1.5, 0]
+                                rotate: [0, 1.5, 0, -1.5, 0],
+                                opacity: [0.1, 0.15, 0.1] // Pulse opacity slightly
                             }
                     }
-                    whileHover={{ opacity: 0.3, scale: frag.scale * 1.1, filter: "blur(0px)" }}
-                    whileInView={{ opacity: 0.08 }}
+                    whileHover={{ opacity: 0.4, scale: frag.scale * 1.1, filter: "blur(0px)" }}
+                    whileInView={{ opacity: 0.15 }}
                     viewport={{ once: false }}
                     transition={{
                         duration: frag.duration,
@@ -111,7 +112,7 @@ export default function BackgroundVerse({ chapterId, onReveal }: BackgroundVerse
                     }}
                     title="Click to reveal verse"
                 >
-                    <div className="font-serif text-maroon text-2xl md:text-5xl leading-relaxed blur-[1.5px] group-hover:blur-0 transition-all duration-700 whitespace-nowrap opacity-60">
+                    <div className="font-serif text-maroon text-3xl md:text-5xl leading-relaxed blur-[0.5px] group-hover:blur-0 transition-all duration-700 whitespace-nowrap opacity-60">
                         {frag.text}
                     </div>
 
