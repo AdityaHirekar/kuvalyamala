@@ -139,7 +139,7 @@ export default function Chapters() {
                     {/* Background Verse - Whispers of the Text */}
                     <BackgroundVerse chapterId={chapter.id} onReveal={() => setRevealedVerse(verses[chapter.id])} />
 
-                    <div className={`max-w-6xl mx-auto w-full flex flex-col gap-12 ${chapter.align === "left" ? "md:flex-row" : "md:flex-row-reverse"} relative z-10`}>
+                    <div className={`max-w-6xl mx-auto w-full flex flex-col gap-12 ${chapter.align === "left" ? "md:flex-row" : "md:flex-row-reverse"} relative z-10 pointer-events-none`}>
 
                         {/* Image Area */}
                         <motion.div
@@ -147,7 +147,7 @@ export default function Chapters() {
                             whileInView={{ opacity: 1, scale: 1 }}
                             viewport={{ once: true, margin: "-100px" }}
                             transition={{ duration: 0.8 }}
-                            className="flex-1"
+                            className="flex-1 pointer-events-auto"
                         >
                             <div className="w-full aspect-[4/5] md:aspect-[3/4] rounded-sm bg-ink/5 border border-ink/10 relative overflow-hidden group shadow-lg">
                                 {chapter.image ? (
@@ -182,7 +182,7 @@ export default function Chapters() {
                             whileInView={{ opacity: 1, x: 0 }}
                             viewport={{ once: true, margin: "-100px" }}
                             transition={{ duration: 0.8, delay: 0.2 }}
-                            className="flex-1 flex flex-col justify-center"
+                            className="flex-1 flex flex-col justify-center pointer-events-auto"
                         >
                             <div className="flex items-center gap-4 mb-6">
                                 <span className="text-maroon font-serif font-bold tracking-widest uppercase text-sm">Chapter 0{chapter.id}</span>

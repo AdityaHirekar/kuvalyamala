@@ -37,26 +37,16 @@ export default function BackgroundVerse({ chapterId, onReveal }: BackgroundVerse
             ...verseData.fullVerse.split("\n")
         ].filter(Boolean);
 
-        // Define a 6-cell grid (3 rows x 2 columns) to spread items out
-        const gridCells = [
-            { r: 0, c: 0 }, { r: 0, c: 1 },
-            { r: 1, c: 0 }, { r: 1, c: 1 },
-            { r: 2, c: 0 }, { r: 2, c: 1 }
-        ];
+        // Generate 6 fragments, spread vertically across the section
+        const newFragments: FragmentState[] = Array.from({ length: 6 }).map((_, i) => {
+            // Divide height into 6 zones (0-16%, 16-32%, etc.)
+            const rowBase = i * 16;
 
-        // Shuffle grid cells to assign random positions to fragments
-        const shuffledCells = [...gridCells].sort(() => Math.random() - 0.5);
-
-        // Generate 6 fragments, one for each grid cell
-        const newFragments: FragmentState[] = shuffledCells.map((cell, i) => {
-            // Calculate base position based on grid cell (33% height, 50% width each)
-            const rowBase = cell.r * 33;
-            const colBase = cell.c * 50;
-
-            // Add variance within the cell (keep roughly within bounds)
-            // Variance: 5-25% for top, 5-40% for left within the cell
-            const top = rowBase + (Math.random() * 20 + 5);
-            const left = colBase + (Math.random() * 30 + 5);
+            // Randomize position:
+            // Top: within the zone (with some padding)
+            // Left: 10% to 80% to keep it central but spread out (good for mobile)
+            const top = rowBase + (Math.random() * 10 + 2);
+            const left = Math.floor(Math.random() * 70) + 10;
 
             return {
                 id: i,
