@@ -5,7 +5,7 @@ async function verify() {
         const response = await fetch('http://localhost:3000/api/chat', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ messages: [{ role: 'user', content: 'Who are you?' }] })
+            body: JSON.stringify({ messages: [{ role: 'user', content: 'Hello' }] })
         });
 
         if (!response.ok) {
@@ -18,7 +18,7 @@ async function verify() {
         }
 
         const data = await response.json();
-        console.log('Response:', data);
+        console.log('Full Response JSON:', JSON.stringify(data, null, 2));
     } catch (e) {
         console.error('Error:', e);
     }
