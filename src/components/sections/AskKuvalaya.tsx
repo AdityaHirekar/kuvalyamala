@@ -36,25 +36,36 @@ export default function AskKuvalaya() {
         }
     }, [messages, isActive, isLoading]);
 
-    const handleSend = async (text: string) => {
-        if (!text.trim()) return;
-
-        const newMessages: Message[] = [...messages, { role: "user", content: text }];
-        setMessages(newMessages);
-        setInputValue("");
+    const fetchResponse = async (currentMessages: Message[]) => {
         setIsLoading(true);
         setError(null);
 
         try {
-            const response = await fetch("/api/chat", {
+            const response = await fetch("/api/chat_new", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ messages: newMessages }),
+                body: JSON.stringify({ messages: currentMessages }),
             });
 
             if (!response.ok) {
                 const data = await response.json();
-                throw new Error(data.error || "Failed to get response");
+                const errorMessage = data.error || "The spirits are silent. Please try again.";
+
+                // If it's a loading error, give a specific hint
+                if (response.status === 503 || errorMessage.includes("loading")) {
+                    throw new Error("The model is waking up. Please retry in a moment.");
+                }
+                throw new Error(errorMessage);
+            }
+
+            const contentType = response.headers.get("content-type");
+            if (!contentType || !contentType.includes("application/json")) {
+                const text = await response.text();
+                // Check if it's HTML (likely captive portal or block page)
+                if (text.includes("<!DOCTYPE html>") || text.includes("<html")) {
+                    throw new Error("Network blocked. Authorization page detected.");
+                }
+                throw new Error("Received unexpected response from the API.");
             }
 
             const data = await response.json();
@@ -64,6 +75,21 @@ export default function AskKuvalaya() {
         } finally {
             setIsLoading(false);
         }
+    };
+
+    const handleSend = async (text: string) => {
+        if (!text.trim()) return;
+
+        const newMessages: Message[] = [...messages, { role: "user", content: text }];
+        setMessages(newMessages);
+        setInputValue("");
+
+        await fetchResponse(newMessages);
+    };
+
+    const handleRetry = () => {
+        if (messages.length === 0) return;
+        fetchResponse(messages);
     };
 
     const startChat = (initialPrompt?: string) => {
@@ -182,9 +208,17 @@ export default function AskKuvalaya() {
                             )}
                             {error && (
                                 <div className="flex justify-center">
-                                    <div className="bg-red-50 text-red-600 px-4 py-2 rounded-lg text-sm border border-red-100 flex items-center gap-2">
-                                        <X className="w-4 h-4" />
-                                        {error}
+                                    <div className="flex flex-col items-center gap-2">
+                                        <div className="bg-red-50 text-red-600 px-4 py-2 rounded-lg text-sm border border-red-100 flex items-center gap-2">
+                                            <X className="w-4 h-4" />
+                                            {error}
+                                        </div>
+                                        <button
+                                            onClick={handleRetry}
+                                            className="text-xs text-maroon hover:underline flex items-center gap-1"
+                                        >
+                                            <RefreshCw className="w-3 h-3" /> Retry
+                                        </button>
                                     </div>
                                 </div>
                             )}
