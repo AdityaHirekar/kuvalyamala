@@ -37,6 +37,11 @@ const chapters = [
                 modern: "In a consumerist world, Vairagya invites us to find joy in simplicity and inner contentment rather than accumulation."
             }
         ],
+        reflection: {
+            title: "Impermanence / Vairāgya",
+            question: "If comfort brings unease, what might be missing?",
+            options: ["Purpose", "Freedom", "Understanding"]
+        },
         bg: "bg-paper",
         align: "left"
     },
@@ -53,6 +58,11 @@ const chapters = [
                 modern: "Recognizing our shared history of diversity helps foster tolerance and cultural appreciation today."
             }
         ],
+        reflection: {
+            title: "Karma / Choice",
+            question: "When facing uncertainty, what guides your next step most?",
+            options: ["Habit", "Advice from others", "My own values"]
+        },
         bg: "bg-[#EAE5D9]",
         align: "right"
     },
@@ -69,6 +79,11 @@ const chapters = [
                 modern: "Understanding that our choices have consequences empowers us to act with responsibility and foresight."
             }
         ],
+        reflection: {
+            title: "Compassion / Karuṇā",
+            question: "When you notice someone in need, what do you usually do first?",
+            options: ["Step in to help", "Hesitate and observe", "Look away"]
+        },
         bg: "bg-paper", // Slightly darker paper
         align: "left"
     },
@@ -85,6 +100,11 @@ const chapters = [
                 modern: "Addressing internal biases and anger is the first step towards creating a peaceful society."
             }
         ],
+        reflection: {
+            title: "Humility / Vinaya",
+            question: "What is hardest to practice in moments of conflict?",
+            options: ["Listening without reacting", "Admitting I might be wrong", "Letting go of pride"]
+        },
         bg: "bg-[#EAE5D9]",
         align: "right"
     },
@@ -101,10 +121,19 @@ const chapters = [
                 modern: "Living with integrity and purpose (Dharma) provides a compass in navigating life's complexities."
             }
         ],
+        reflection: {
+            title: "Integration / Dharma in action",
+            question: "Which value from the journey feels hardest to live by daily?",
+            options: ["Impermanence", "Compassion", "Humility"]
+        },
         bg: "bg-paper",
         align: "left"
     }
 ];
+
+export { chapters }; // Export for Summary component
+
+import ReflectionCard from "@/components/ui/ReflectionCard";
 
 export default function Chapters() {
     const [activeTheme, setActiveTheme] = useState<{ label: string; desc: string; modern: string } | null>(null);
@@ -134,80 +163,94 @@ export default function Chapters() {
             </div>
 
             {chapters.map((chapter, index) => (
-                <div key={chapter.id} className={`py-24 px-6 md:px-12 lg:px-24 ${chapter.bg} min-h-[90vh] flex items-center relative overflow-hidden`}>
+                <div key={chapter.id} className="relative">
+                    <div className={`py-24 px-6 md:px-12 lg:px-24 ${chapter.bg} min-h-[90vh] flex items-center relative overflow-hidden`}>
+                        {/* Background Verse - Whispers of the Text */}
+                        <BackgroundVerse chapterId={chapter.id} onReveal={() => setRevealedVerse(verses[chapter.id])} />
 
-                    {/* Background Verse - Whispers of the Text */}
-                    <BackgroundVerse chapterId={chapter.id} onReveal={() => setRevealedVerse(verses[chapter.id])} />
+                        <div className={`max-w-6xl mx-auto w-full flex flex-col gap-12 ${chapter.align === "left" ? "md:flex-row" : "md:flex-row-reverse"} relative z-10 pointer-events-none`}>
 
-                    <div className={`max-w-6xl mx-auto w-full flex flex-col gap-12 ${chapter.align === "left" ? "md:flex-row" : "md:flex-row-reverse"} relative z-10 pointer-events-none`}>
-
-                        {/* Image Area */}
-                        <motion.div
-                            initial={{ opacity: 0, scale: 0.95 }}
-                            whileInView={{ opacity: 1, scale: 1 }}
-                            viewport={{ once: true, margin: "-100px" }}
-                            transition={{ duration: 0.8 }}
-                            className="flex-1 pointer-events-auto"
-                        >
-                            <div className="w-full aspect-[4/5] md:aspect-[3/4] rounded-sm bg-ink/5 border border-ink/10 relative overflow-hidden group shadow-lg">
-                                {chapter.image ? (
-                                    <div className="relative w-full h-full">
-                                        <Image
-                                            src={chapter.image}
-                                            alt={chapter.title}
-                                            fill
-                                            className="object-cover sepia-[0.2] hover:sepia-0 transition-all duration-700"
-                                        />
-                                        <div className="absolute inset-0 bg-gradient-to-t from-ink/40 to-transparent opacity-60" />
-                                    </div>
-                                ) : (
-                                    <>
-                                        <div className="absolute inset-0 bg-ink/10 group-hover:bg-ink/5 transition-colors duration-700" />
-                                        <div className="absolute inset-0 flex items-center justify-center opacity-30">
-                                            {/* Abstract Geomerty as placeholder */}
-                                            <div className="w-48 h-48 border-4 border-ink/20 rounded-full" />
-                                            <div className="absolute w-64 h-64 border border-ink/10 rounded-full" />
+                            {/* Image Area */}
+                            <motion.div
+                                initial={{ opacity: 0, scale: 0.95 }}
+                                whileInView={{ opacity: 1, scale: 1 }}
+                                viewport={{ once: true, margin: "-100px" }}
+                                transition={{ duration: 0.8 }}
+                                className="flex-1 pointer-events-auto"
+                            >
+                                <div className="w-full aspect-[4/5] md:aspect-[3/4] rounded-sm bg-ink/5 border border-ink/10 relative overflow-hidden group shadow-lg">
+                                    {chapter.image ? (
+                                        <div className="relative w-full h-full">
+                                            <Image
+                                                src={chapter.image}
+                                                alt={chapter.title}
+                                                fill
+                                                className="object-cover sepia-[0.2] hover:sepia-0 transition-all duration-700"
+                                            />
+                                            <div className="absolute inset-0 bg-gradient-to-t from-ink/40 to-transparent opacity-60" />
                                         </div>
-                                    </>
-                                )}
-                                <span className="absolute bottom-4 right-4 text-xs font-serif italic text-white/80 z-10 px-2 py-1 bg-black/20 backdrop-blur-sm rounded">
-                                    Visual: {chapter.title}
-                                </span>
-                            </div>
-                        </motion.div>
-
-                        {/* Text Area */}
-                        <motion.div
-                            initial={{ opacity: 0, x: chapter.align === "left" ? 50 : -50 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true, margin: "-100px" }}
-                            transition={{ duration: 0.8, delay: 0.2 }}
-                            className="flex-1 flex flex-col justify-center"
-                        >
-                            <div className="pointer-events-auto">
-                                <div className="flex items-center gap-4 mb-6">
-                                    <span className="text-maroon font-serif font-bold tracking-widest uppercase text-sm">Chapter 0{chapter.id}</span>
-                                    <div className="h-px bg-maroon/20 flex-grow" />
-                                    <AudioButton track={chapter.audio} />
+                                    ) : (
+                                        <>
+                                            <div className="absolute inset-0 bg-ink/10 group-hover:bg-ink/5 transition-colors duration-700" />
+                                            <div className="absolute inset-0 flex items-center justify-center opacity-30">
+                                                {/* Abstract Geomerty as placeholder */}
+                                                <div className="w-48 h-48 border-4 border-ink/20 rounded-full" />
+                                                <div className="absolute w-64 h-64 border border-ink/10 rounded-full" />
+                                            </div>
+                                        </>
+                                    )}
+                                    <span className="absolute bottom-4 right-4 text-xs font-serif italic text-white/80 z-10 px-2 py-1 bg-black/20 backdrop-blur-sm rounded">
+                                        Visual: {chapter.title}
+                                    </span>
                                 </div>
+                            </motion.div>
 
-                                <h2 className="text-3xl md:text-5xl font-serif font-bold text-ink mb-8 leading-tight">{chapter.title}</h2>
+                            {/* Text Area */}
+                            <motion.div
+                                initial={{ opacity: 0, x: chapter.align === "left" ? 50 : -50 }}
+                                whileInView={{ opacity: 1, x: 0 }}
+                                viewport={{ once: true, margin: "-100px" }}
+                                transition={{ duration: 0.8, delay: 0.2 }}
+                                className="flex-1 flex flex-col justify-center"
+                            >
+                                <div className="pointer-events-auto">
+                                    <div className="flex items-center gap-4 mb-6">
+                                        <span className="text-maroon font-serif font-bold tracking-widest uppercase text-sm">Chapter 0{chapter.id}</span>
+                                        <div className="h-px bg-maroon/20 flex-grow" />
+                                        <AudioButton track={chapter.audio} />
+                                    </div>
 
-                                <div className="text-lg md:text-xl leading-loose font-serif text-ink/80 mb-8 text-justify">
-                                    <p className="mb-6">
-                                        {chapter.narrative}
-                                    </p>
+                                    <h2 className="text-3xl md:text-5xl font-serif font-bold text-ink mb-8 leading-tight">{chapter.title}</h2>
 
-                                    <div className="flex flex-wrap gap-2 mt-6">
-                                        {chapter.themes.map((theme, i) => (
-                                            <ThemeChip key={i} label={theme.label} onClick={() => setActiveTheme(theme)} />
-                                        ))}
+                                    <div className="text-lg md:text-xl leading-loose font-serif text-ink/80 mb-8 text-justify">
+                                        <p className="mb-6">
+                                            {chapter.narrative}
+                                        </p>
+
+                                        <div className="flex flex-wrap gap-2 mt-6">
+                                            {chapter.themes.map((theme, i) => (
+                                                <ThemeChip key={i} label={theme.label} onClick={() => setActiveTheme(theme)} />
+                                            ))}
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </motion.div>
+                            </motion.div>
 
+                        </div>
                     </div>
+
+                    {/* Reflection Card Insert */}
+                    <ReflectionCard
+                        chapterId={chapter.id}
+                        title={chapter.reflection.title}
+                        question={chapter.reflection.question}
+                        options={chapter.reflection.options}
+                        onContinue={() => {
+                            // Logic to smooth scroll to next chapter could go here
+                            const nextChapter = document.getElementById(`chapter-${chapter.id + 1}`);
+                            // Or just close/collapse logic if needed, but for now simple flow
+                        }}
+                    />
                 </div>
             ))}
 
