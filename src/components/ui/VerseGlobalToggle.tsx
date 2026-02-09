@@ -7,6 +7,13 @@ import { motion } from "framer-motion";
 
 export default function VerseGlobalToggle() {
     const { showBackgroundVerses, toggleBackgroundVerses } = useVerseContext();
+    const [isMounted, setIsMounted] = React.useState(false);
+
+    React.useEffect(() => {
+        setIsMounted(true);
+    }, []);
+
+    if (!isMounted) return null;
 
     return (
         <motion.button

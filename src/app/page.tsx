@@ -11,22 +11,33 @@ import { AudioProvider } from "@/lib/AudioContext";
 import { VerseProvider } from "@/lib/VerseContext";
 import GlobalMute from "@/components/ui/GlobalMute";
 import VerseGlobalToggle from "@/components/ui/VerseGlobalToggle";
+import { ReflectionProvider } from "@/lib/ReflectionContext";
+import ReflectionToggle from "@/components/ui/ReflectionToggle";
+import ReflectionsSummary from "@/components/sections/ReflectionsSummary";
+import { chapters } from "@/components/sections/Chapters";
+import AskKuvalaya from "@/components/sections/AskKuvalaya";
 
 export default function Home() {
   return (
     <AudioProvider>
       <VerseProvider>
-        <main className="min-h-screen bg-paper overflow-x-hidden w-full m-0 p-0 selection:bg-maroon selection:text-white relative">
-          <GlobalMute />
-          <VerseGlobalToggle />
-          <Hero />
-          <Context />
-          <Chapters />
-          <Values />
-          <Reflections />
-          <Quiz />
-          <Footer />
-        </main>
+        <ReflectionProvider>
+          <main className="min-h-screen bg-paper overflow-x-hidden w-full m-0 p-0 selection:bg-maroon selection:text-white relative">
+            <GlobalMute />
+            <VerseGlobalToggle />
+            <ReflectionToggle />
+            <Hero />
+            <Context />
+            <Chapters />
+            <Values />
+            <Reflections />
+            <Quiz />
+            <Quiz />
+            <ReflectionsSummary chapters={chapters} />
+            <AskKuvalaya />
+            <Footer />
+          </main>
+        </ReflectionProvider>
       </VerseProvider>
     </AudioProvider>
   );
