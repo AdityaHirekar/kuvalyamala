@@ -23,7 +23,9 @@ export default function AskKuvalaya() {
     const [messages, setMessages] = useState<Message[]>([]);
     const [inputValue, setInputValue] = useState("");
     const [isLoading, setIsLoading] = useState(false);
+    const [isRetrying, setIsRetrying] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const [statusMessage, setStatusMessage] = useState<string>("");
     const chatEndRef = useRef<HTMLDivElement>(null);
 
     const scrollToBottom = () => {
@@ -36,9 +38,13 @@ export default function AskKuvalaya() {
         }
     }, [messages, isActive, isLoading]);
 
-    const fetchResponse = async (currentMessages: Message[]) => {
+    const fetchResponse = async (currentMessages: Message[], retryCount = 0) => {
         setIsLoading(true);
         setError(null);
+
+        if (retryCount === 0) {
+            setStatusMessage("");
+        }
 
         try {
             const response = await fetch("/api/chat", {
@@ -47,33 +53,44 @@ export default function AskKuvalaya() {
                 body: JSON.stringify({ messages: currentMessages }),
             });
 
-            if (!response.ok) {
-                const data = await response.json();
-                const errorMessage = data.error || "The spirits are silent. Please try again.";
-
-                // If it's a loading error, give a specific hint
-                if (response.status === 503 || errorMessage.includes("loading")) {
-                    throw new Error("The model is waking up. Please retry in a moment.");
-                }
-                throw new Error(errorMessage);
-            }
-
-            const contentType = response.headers.get("content-type");
-            if (!contentType || !contentType.includes("application/json")) {
-                const text = await response.text();
-                // Check if it's HTML (likely captive portal or block page)
-                if (text.includes("<!DOCTYPE html>") || text.includes("<html")) {
-                    throw new Error("Network blocked. Authorization page detected.");
-                }
-                throw new Error("Received unexpected response from the API.");
-            }
-
             const data = await response.json();
+
+            if (!response.ok) {
+                // Handle specific status codes
+                if (response.status === 503) {
+                    // Model Loading / Service Unavailable
+                    if (retryCount < 3) {
+                        setIsRetrying(true);
+                        const delay = retryCount === 0 ? 5000 : 10000; // 5s then 10s
+                        setStatusMessage(`Prince Kuvalaya is gathering his thoughts... (Attempt ${retryCount + 1}/3)`);
+
+                        // Wait and retry
+                        await new Promise(resolve => setTimeout(resolve, delay));
+                        return fetchResponse(currentMessages, retryCount + 1);
+                    } else {
+                        throw new Error("The spirits are silent right now. Please try again later.");
+                    }
+                } else if (response.status === 429) {
+                    throw new Error("Too many questions. Please wait a moment before asking again.");
+                } else if (response.status === 401 || response.status === 403) {
+                    throw new Error("Configuration Error. Please contact the administrator.");
+                } else {
+                    throw new Error(data.error || "Something went wrong.");
+                }
+            }
+
             setMessages((prev) => [...prev, { role: "kuvalaya", content: data.reply }]);
+            setStatusMessage("");
+            setIsRetrying(false);
+
         } catch (err) {
+            setIsRetrying(false);
+            setStatusMessage("");
             setError(err instanceof Error ? err.message : "Something went wrong.");
         } finally {
-            setIsLoading(false);
+            if (!isRetrying) {
+                setIsLoading(false);
+            }
         }
     };
 
@@ -198,12 +215,15 @@ export default function AskKuvalaya() {
                             ))}
 
                             {isLoading && (
-                                <div className="flex justify-start">
+                                <div className="flex flex-col items-start gap-2">
                                     <div className="bg-[#F3EFE0] p-4 rounded-2xl rounded-bl-none border border-maroon/5 flex gap-2 items-center">
                                         <div className="w-2 h-2 bg-maroon/40 rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
                                         <div className="w-2 h-2 bg-maroon/40 rounded-full animate-bounce" style={{ animationDelay: "150ms" }} />
                                         <div className="w-2 h-2 bg-maroon/40 rounded-full animate-bounce" style={{ animationDelay: "300ms" }} />
                                     </div>
+                                    {statusMessage && (
+                                        <p className="text-xs text-ink/40 ml-2 italic animate-pulse">{statusMessage}</p>
+                                    )}
                                 </div>
                             )}
                             {error && (
