@@ -3,7 +3,9 @@ import { NextResponse } from 'next/server';
 // Force dynamic to prevent caching
 export const dynamic = 'force-dynamic';
 
-const MODEL_NAME = "google/gemma-2b-it";
+// Configuration for the new provider
+const API_URL = "https://apis.iflow.cn/v1/chat/completions";
+const MODEL_NAME = "deepseek-v3"; // Ensure this matches the provider's exact model ID (sometimes "deepseek-chat")
 
 const SYSTEM_PROMPT = `
 Role: You are Prince Kuvalaya (also known as Kuvalayachandra).
@@ -32,19 +34,21 @@ Your journey ended by turning inward. You realized that true conquest is becomin
 Answer only about your journey and the values you learned: impermanence (anitya), detachment (vairagya), compassion (karuna), humility (vinaya), and karma.
 If a question is unrelated, gently redirect to these themes.
 Provide a thoughtful, detailed response (approximately 4-6 sentences). Content should be poetic, deep, using metaphors from nature.
-Avoid modern slang or contemporary references.`;
+Avoid modern slang or contemporary references.
+`;
 
 export async function POST(req: Request) {
-    const apiKey = process.env.IFLOW_API_KEY;
+    // 1. Get the API Key (Update your .env file to match one of these)
+    const apiKey = process.env.DEEPSEEK_API_KEY || process.env.IFLOW_API_KEY || process.env.HF_API_TOKEN;
 
     if (!apiKey) {
-        console.error("[Chat] Missing IFLOW_API_KEY");
         return NextResponse.json(
-            { error: "Configuration Error: API Key missing on server.", status: 500 },
+            { error: "Configuration Error: Missing API Key.", status: 500 },
             { status: 500 }
         );
     }
 
+    // 2. Parse the User Message
     let messages = [];
     try {
         const body = await req.json();
@@ -53,60 +57,55 @@ export async function POST(req: Request) {
         return NextResponse.json({ error: "Invalid JSON body", status: 400 }, { status: 400 });
     }
 
-    if (messages.length === 0) {
-        return NextResponse.json({ error: "No messages provided", status: 400 }, { status: 400 });
-    }
-
-    const lastUserMessage = messages[messages.length - 1].content;
-
-    // Construct messages array for chat completion
-    const chatMessages = [
+    // 3. Construct the Conversation History
+    const conversation = [
         { role: "system", content: SYSTEM_PROMPT },
-        ...messages // Include previous context
+        ...messages
     ];
 
     try {
-        console.log("[Chat] Sending request to iFlow API...");
+        console.log("[Chat] Sending request to iflow/DeepSeek...");
 
-        const response = await fetch("https://apis.iflow.cn/v1/chat/completions", {
+        // 4. Send Request using standard fetch (No SDK needed)
+        const response = await fetch(API_URL, {
             method: "POST",
             headers: {
-                "Authorization": `Bearer ${apiKey}`,
                 "Content-Type": "application/json",
+                "Authorization": `Bearer ${apiKey}`
             },
             body: JSON.stringify({
                 model: MODEL_NAME,
-                messages: chatMessages,
-                max_tokens: 250,
-                temperature: 0.7
-            }),
+                messages: conversation,
+                temperature: 0.7,
+                max_tokens: 1000,
+                stream: false
+            })
         });
 
         if (!response.ok) {
-            const status = response.status;
             const errorText = await response.text();
-            console.error(`[Chat] iFlow API Error (${status}):`, errorText);
-
-            let errorMessage = "AI service temporarily unavailable.";
-            if (status === 401 || status === 403) {
-                errorMessage = "Service configuration issue.";
-            } else if (status === 429) {
-                errorMessage = "Too many requests, please wait.";
-            }
-
-            return NextResponse.json({ error: errorMessage, status: status, details: errorText }, { status: status });
+            console.error(`[Chat] API Error (${response.status}):`, errorText);
+            return NextResponse.json(
+                { error: `Provider Error: ${response.status}`, details: errorText },
+                { status: response.status }
+            );
         }
 
         const data = await response.json();
-        // Chat completion response structure: choices[0].message.content
+
+        // 5. Extract the reply (Standard OpenAI Format)
         const replyText = data.choices?.[0]?.message?.content || "";
+
+        if (!replyText) {
+            return NextResponse.json({ reply: "The oracle is silent... (Empty response from provider)" });
+        }
 
         return NextResponse.json({ reply: replyText.trim() });
 
     } catch (error: any) {
-        console.error("[Chat] iFlow Network Error:", error);
+        console.error("[Chat] Network/Fetch Error:", error);
         return NextResponse.json(
-            { error: "AI service temporarily unavailable.", status: 500 },
+            { error: "Connection failed.", details: error.message },
             { status: 500 }
         );
     }
