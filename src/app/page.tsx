@@ -32,7 +32,6 @@ export default function Home() {
             <Values />
             <Reflections />
             <Quiz />
-            <Quiz />
             <ReflectionsSummary chapters={chapters} />
             <AskKuvalaya />
             <Footer />

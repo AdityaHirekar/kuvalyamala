@@ -126,13 +126,15 @@ export default function AskKuvalaya() {
                             ))}
                         </div>
 
-                        <Button
-                            onClick={() => startChat()}
-                            size="lg"
-                            className="bg-maroon text-white hover:bg-maroon/90 px-8 py-4 text-lg shadow-xl shadow-maroon/20"
-                        >
-                            Start Conversation
-                        </Button>
+                        <div className="flex justify-center">
+                            <Button
+                                onClick={() => startChat()}
+                                size="lg"
+                                className="bg-maroon text-white hover:bg-maroon/90 px-8 py-4 text-lg shadow-xl shadow-maroon/20"
+                            >
+                                Start Conversation
+                            </Button>
+                        </div>
 
                         <p className="mt-8 text-xs text-ink/40 uppercase tracking-widest">
                             Powered by AI • Responses for reflection only
