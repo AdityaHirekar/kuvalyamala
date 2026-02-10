@@ -1,4 +1,3 @@
-
 import { NextResponse } from 'next/server';
 import { HfInference } from "@huggingface/inference";
 
@@ -42,11 +41,12 @@ export async function POST(req: Request) {
     const strictPrompt = `${SYSTEM_PROMPT}\n\nUser: ${lastUserMessage}\nPrince Kuvalaya:`;
 
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 45000); // 45s timeout (Vercel lambda limit is usually 10s or 60s depending on plan, safely under 60)
+    const timeoutId = setTimeout(() => controller.abort(), 45000); // 45s timeout
 
     try {
         console.log("[Chat] Sending request to HF Inference API...");
-        const response = await fetch(`https://api-inference.huggingface.co/models/${MODEL_NAME}`, {
+        // Updated to use router.huggingface.co
+        const response = await fetch(`https://router.huggingface.co/models/${MODEL_NAME}`, {
             method: "POST",
             headers: {
                 "Authorization": `Bearer ${apiKey}`,
