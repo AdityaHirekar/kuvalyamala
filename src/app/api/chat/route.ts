@@ -4,7 +4,6 @@ import { NextResponse } from 'next/server';
 export const dynamic = 'force-dynamic';
 
 const API_URL = "https://apis.iflow.cn/v1/chat/completions";
-// Try "deepseek-chat" if "deepseek-v3" continues to fail, as it's the standard alias
 const MODEL_NAME = "deepseek-v3";
 
 const SYSTEM_PROMPT = `
@@ -31,31 +30,31 @@ export async function POST(req: Request) {
         return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
     }
 
-    // --- HELPER: Ensure content is ALWAYS a simple string ---
-    // Some frameworks send content as an array (for images) or objects. 
-    // This forces it back to plain text to prevent 400 Errors.
+    // --- HELPER: Ensure content is string ---
     const extractContent = (content: any): string => {
         if (typeof content === 'string') return content;
-        if (Array.isArray(content)) {
-            // If it's an array, join the text parts
-            return content
-                .map((part: any) => part.text || JSON.stringify(part))
-                .join(" ");
-        }
-        if (typeof content === 'object') return JSON.stringify(content);
+        if (Array.isArray(content)) return content.map((p: any) => p.text || "").join(" ");
         return String(content || "");
     };
 
-    // --- SANITIZE HISTORY ---
-    const cleanHistory = incomingMessages
-        .filter((m: any) => m.role !== 'system') // Remove client-side system prompts
-        .map((m: any) => ({
-            role: m.role, // Keep strictly "user" or "assistant"
-            content: extractContent(m.content).trim() // Force string content
-        }))
-        .filter((m: any) => m.content !== ""); // Remove empty messages
+    // --- CRITICAL FIX: MAP ROLES ---
+    // The API crashed because it saw "role": "kuvalaya".
+    // We must map strictly to: "system", "user", or "assistant".
+    const cleanHistory = incomingMessages.map((m: any) => {
+        let role = m.role.toLowerCase();
 
-    // Construct valid OpenAI-format conversation
+        // If the role is NOT 'user' or 'system', it must be the bot.
+        // Force it to be 'assistant'.
+        if (role !== 'user' && role !== 'system') {
+            role = 'assistant';
+        }
+
+        return {
+            role: role,
+            content: extractContent(m.content).trim()
+        };
+    }).filter((m: any) => m.content !== "");
+
     const conversation = [
         { role: "system", content: SYSTEM_PROMPT },
         ...cleanHistory
@@ -77,12 +76,9 @@ export async function POST(req: Request) {
             })
         });
 
-        // ERROR HANDLING: Return the exact error from the provider
         if (!response.ok) {
             const errorText = await response.text();
-            console.error(`[Chat] DeepSeek Error (${response.status}):`, errorText);
-
-            // This will show up in your browser console Network tab -> Response
+            console.error(`[Chat] API Error (${response.status}):`, errorText);
             return NextResponse.json(
                 { error: `Provider Error (${response.status}): ${errorText}` },
                 { status: response.status }
