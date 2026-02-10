@@ -85,6 +85,8 @@ export async function POST(req: Request) {
                 return NextResponse.json({ error: "Configuration Error (Auth).", status: 500 }, { status: 500 });
             }
 
+            // For other errors, include details for debugging
+            errorMessage = `AI Service Error (${status}): ${errorText.substring(0, 200)}`;
             return NextResponse.json({ error: errorMessage, status: 500, details: errorText }, { status: 500 });
         }
 
