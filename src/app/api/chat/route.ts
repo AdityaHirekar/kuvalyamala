@@ -19,10 +19,7 @@ export async function POST(req: Request) {
     const apiKey = process.env.DEEPSEEK_API_KEY || process.env.IFLOW_API_KEY || process.env.HF_API_TOKEN;
 
     if (!apiKey) {
-        return NextResponse.json(
-            { error: "Configuration Error: Missing API Key.", status: 500 },
-            { status: 500 }
-        );
+        return NextResponse.json({ error: "Missing API Key." }, { status: 500 });
     }
 
     let incomingMessages = [];
@@ -30,19 +27,20 @@ export async function POST(req: Request) {
         const body = await req.json();
         incomingMessages = body.messages || [];
     } catch (e) {
-        return NextResponse.json({ error: "Invalid JSON body", status: 400 }, { status: 400 });
+        return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
     }
 
-    // --- CRITICAL FIX: SANITIZE HISTORY ---
-    // 1. Remove any existing "system" messages from the client (we control the system prompt here)
-    // 2. Remove any messages with empty content (DeepSeek rejects these)
-    const cleanHistory = incomingMessages.filter((m: any) =>
-        m.role !== 'system' &&
-        m.content &&
-        m.content.trim() !== ""
-    );
+    // --- THE FIX ---
+    // The API is rejecting the request because Vercel SDK sends extra fields like 'id' and 'createdAt'.
+    // We must strip EVERYTHING except 'role' and 'content'.
+    const cleanHistory = incomingMessages
+        .filter((m: any) => m.role !== 'system' && m.content && String(m.content).trim() !== "")
+        .map((m: any) => ({
+            role: m.role,
+            content: m.content
+        }));
 
-    // 3. Construct the final conversation with ONE System prompt at the top
+    // Rebuild the strictly formatted conversation
     const conversation = [
         { role: "system", content: SYSTEM_PROMPT },
         ...cleanHistory
@@ -66,9 +64,8 @@ export async function POST(req: Request) {
 
         if (!response.ok) {
             const errorText = await response.text();
-            console.error(`[Chat] API Error (${response.status}):`, errorText);
+            console.error(`[Chat] DeepSeek Error (${response.status}):`, errorText);
             return NextResponse.json(
-                // Return the actual error text so you can see it in the Network tab if it fails again
                 { error: `Provider Error: ${response.status}`, details: errorText },
                 { status: response.status }
             );
@@ -77,14 +74,9 @@ export async function POST(req: Request) {
         const data = await response.json();
         const replyText = data.choices?.[0]?.message?.content || "";
 
-        if (!replyText) {
-            return NextResponse.json({ reply: "The oracle is silent... (Empty response)" });
-        }
-
         return NextResponse.json({ reply: replyText.trim() });
 
     } catch (error: any) {
-        console.error("[Chat] Network/Fetch Error:", error);
         return NextResponse.json(
             { error: "Connection failed.", details: error.message },
             { status: 500 }
