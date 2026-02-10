@@ -36,13 +36,17 @@ export async function POST(req: Request) {
     }
 
     const lastUserMessage = messages[messages.length - 1].content;
-    const fullPrompt = `${SYSTEM_PROMPT}\n\nUser: ${lastUserMessage}\nPrince Kuvalaya:`;
+
+    // Construct messages array for chat completion
+    const chatMessages = [
+        { role: "system", content: SYSTEM_PROMPT },
+        ...messages // Include previous context
+    ];
 
     try {
         console.log("[Chat] Sending request to iFlow API...");
 
-        // TODO: Update this URL to the actual iFlow API endpoint if different
-        const response = await fetch("https://api.iflow.com/v1/generate", {
+        const response = await fetch("https://apis.iflow.cn/v1/chat/completions", {
             method: "POST",
             headers: {
                 "Authorization": `Bearer ${apiKey}`,
@@ -50,7 +54,7 @@ export async function POST(req: Request) {
             },
             body: JSON.stringify({
                 model: MODEL_NAME,
-                prompt: fullPrompt,
+                messages: chatMessages,
                 max_tokens: 250,
                 temperature: 0.7
             }),
@@ -72,7 +76,8 @@ export async function POST(req: Request) {
         }
 
         const data = await response.json();
-        const replyText = data.text || data.generated_text || data.reply || "";
+        // Chat completion response structure: choices[0].message.content
+        const replyText = data.choices?.[0]?.message?.content || "";
 
         return NextResponse.json({ reply: replyText.trim() });
 
