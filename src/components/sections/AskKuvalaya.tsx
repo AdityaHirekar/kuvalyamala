@@ -23,9 +23,7 @@ export default function AskKuvalaya() {
     const [messages, setMessages] = useState<Message[]>([]);
     const [inputValue, setInputValue] = useState("");
     const [isLoading, setIsLoading] = useState(false);
-    const [isRetrying, setIsRetrying] = useState(false);
     const [error, setError] = useState<string | null>(null);
-    const [statusMessage, setStatusMessage] = useState<string>("");
     const chatEndRef = useRef<HTMLDivElement>(null);
 
     const scrollToBottom = () => {
@@ -38,13 +36,9 @@ export default function AskKuvalaya() {
         }
     }, [messages, isActive, isLoading]);
 
-    const fetchResponse = async (currentMessages: Message[], retryCount = 0) => {
+    const fetchResponse = async (currentMessages: Message[]) => {
         setIsLoading(true);
         setError(null);
-
-        if (retryCount === 0) {
-            setStatusMessage("");
-        }
 
         try {
             const response = await fetch("/api/chat", {
@@ -53,44 +47,28 @@ export default function AskKuvalaya() {
                 body: JSON.stringify({ messages: currentMessages }),
             });
 
-            const data = await response.json();
-
             if (!response.ok) {
-                // Handle specific status codes
-                if (response.status === 503) {
-                    // Model Loading / Service Unavailable
-                    if (retryCount < 3) {
-                        setIsRetrying(true);
-                        const delay = retryCount === 0 ? 5000 : 10000; // 5s then 10s
-                        setStatusMessage(`Prince Kuvalaya is gathering his thoughts... (Attempt ${retryCount + 1}/3)`);
+                const data = await response.json();
 
-                        // Wait and retry
-                        await new Promise(resolve => setTimeout(resolve, delay));
-                        return fetchResponse(currentMessages, retryCount + 1);
-                    } else {
-                        throw new Error("The spirits are silent right now. Please try again later.");
-                    }
+                // Specific error messages based on status codes
+                if (response.status === 401 || response.status === 403) {
+                    throw new Error("Service configuration issue.");
                 } else if (response.status === 429) {
-                    throw new Error("Too many questions. Please wait a moment before asking again.");
-                } else if (response.status === 401 || response.status === 403) {
-                    throw new Error("Configuration Error. Please contact the administrator.");
-                } else {
-                    throw new Error(data.error || "Something went wrong.");
+                    throw new Error("Too many requests, please wait.");
+                } else if (response.status >= 500) {
+                    throw new Error("AI service temporarily unavailable.");
                 }
+
+                // Fallback
+                throw new Error(data.error || "Something went wrong.");
             }
 
+            const data = await response.json();
             setMessages((prev) => [...prev, { role: "kuvalaya", content: data.reply }]);
-            setStatusMessage("");
-            setIsRetrying(false);
-
         } catch (err) {
-            setIsRetrying(false);
-            setStatusMessage("");
             setError(err instanceof Error ? err.message : "Something went wrong.");
         } finally {
-            if (!isRetrying) {
-                setIsLoading(false);
-            }
+            setIsLoading(false);
         }
     };
 
@@ -215,15 +193,12 @@ export default function AskKuvalaya() {
                             ))}
 
                             {isLoading && (
-                                <div className="flex flex-col items-start gap-2">
+                                <div className="flex justify-start">
                                     <div className="bg-[#F3EFE0] p-4 rounded-2xl rounded-bl-none border border-maroon/5 flex gap-2 items-center">
                                         <div className="w-2 h-2 bg-maroon/40 rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
                                         <div className="w-2 h-2 bg-maroon/40 rounded-full animate-bounce" style={{ animationDelay: "150ms" }} />
                                         <div className="w-2 h-2 bg-maroon/40 rounded-full animate-bounce" style={{ animationDelay: "300ms" }} />
                                     </div>
-                                    {statusMessage && (
-                                        <p className="text-xs text-ink/40 ml-2 italic animate-pulse">{statusMessage}</p>
-                                    )}
                                 </div>
                             )}
                             {error && (
