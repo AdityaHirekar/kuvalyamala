@@ -44,11 +44,13 @@ export async function POST(req: Request) {
         const strictPrompt = `${SYSTEM_PROMPT}\n\nUser: ${lastUserMessage}\nPrince Kuvalaya:`;
 
         let response: any;
-        let retries = 3;
+        let retries = 10;
+        let lastError;
 
         // Retry logic for 503 Service Unavailable / Model Loading
         while (retries > 0) {
             try {
+                console.log(`[Chat] Attempting inference... (${retries} retries left)`);
                 response = await hf.textGeneration({
                     model: MODEL_NAME,
                     inputs: strictPrompt,
@@ -61,16 +63,25 @@ export async function POST(req: Request) {
                 break; // Success
             } catch (err: any) {
                 retries--;
-                if (retries === 0) throw err;
+                lastError = err;
+                if (retries === 0) break;
 
                 const msg = err.message || "";
+                console.warn(`[Chat] Error: ${msg}`);
+
                 if (msg.includes("503") || msg.toLowerCase().includes("loading") || msg.includes("Service Unavailable")) {
-                    console.log(`[Chat] Model loading/503, retrying... (${retries} left)`);
+                    console.log(`[Chat] Model loading/503. Waiting 5s... (${retries} attempts remaining)`);
                     await new Promise(res => setTimeout(res, 5000));
                 } else {
-                    throw err;
+                    // If it's not a loading error, maybe we shouldn't retry, but for now let's be robust
+                    console.log(`[Chat] Non-503 error. Retrying in 2s...`);
+                    await new Promise(res => setTimeout(res, 2000));
                 }
             }
+        }
+
+        if (!response && lastError) {
+            throw lastError;
         }
 
         let replyText = response.generated_text;
