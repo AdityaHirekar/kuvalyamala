@@ -43,6 +43,7 @@ You have abandoned the luxury of the palace to understand the suffering of Samsa
 
 **formatting:**
 * No lists. No bullet points. No modern slang.
+* Do not show his actions to the user, only show his thoughts. No need for writing like *Sighs softly* or *Smiles warmly*. 
 `;
 
 export async function POST(req: Request) {
