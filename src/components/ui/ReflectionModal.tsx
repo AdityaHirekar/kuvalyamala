@@ -9,6 +9,7 @@ import Button from "@/components/ui/Button";
 export interface ReflectionOption {
     text: string;
     type: 'deep' | 'shallow';
+    traits: string[];
 }
 
 interface ReflectionModalProps {
@@ -59,6 +60,7 @@ export default function ReflectionModal({
 
         saveReflection(chapterId, {
             selectedOption: selectedOption.text,
+            traits: selectedOption.traits,
             note,
             timestamp: Date.now()
         });
@@ -105,9 +107,12 @@ export default function ReflectionModal({
                                     >
                                         <div className="text-center space-y-4">
                                             <span className="text-ink/40 font-serif italic">Reflection {chapterId} of 5</span>
-                                            <h3 className="text-2xl md:text-3xl font-serif font-bold text-ink">
+                                            <h3 className="text-2xl md:text-3xl font-serif font-bold text-maroon mb-6 leading-tight">
                                                 {question}
                                             </h3>
+                                            <p className="text-sm font-serif italic text-ink/40 mb-8">
+                                                There is no right answer. Choose what feels closest to you.
+                                            </p>
                                         </div>
 
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

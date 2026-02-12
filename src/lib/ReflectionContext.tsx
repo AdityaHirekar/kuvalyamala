@@ -5,6 +5,7 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 // Types for Reflection Data
 export interface ReflectionData {
     selectedOption: string;
+    traits?: string[];
     note: string;
     timestamp: number;
 }
