@@ -14,6 +14,7 @@ interface ReflectionContextType {
     toggleReflectionMode: () => void;
     reflections: Record<number, ReflectionData>;
     saveReflection: (chapterId: number, data: ReflectionData) => void;
+    isChapterUnlocked: (chapterId: number) => boolean;
 }
 
 const ReflectionContext = createContext<ReflectionContextType | undefined>(undefined);
@@ -52,8 +53,13 @@ export function ReflectionProvider({ children }: { children: React.ReactNode }) 
         localStorage.setItem('userReflections', JSON.stringify(updatedReflections));
     };
 
+    const isChapterUnlocked = (chapterId: number) => {
+        if (chapterId === 1) return true; // Chapter 1 is always unlocked
+        return !!reflections[chapterId - 1]; // Previous chapter reflection must be present
+    };
+
     return (
-        <ReflectionContext.Provider value={{ isReflectionMode, toggleReflectionMode, reflections, saveReflection }}>
+        <ReflectionContext.Provider value={{ isReflectionMode, toggleReflectionMode, reflections, saveReflection, isChapterUnlocked }}>
             {children}
         </ReflectionContext.Provider>
     );

@@ -8,6 +8,15 @@ import Button from "@/components/ui/Button";
 import AudioButton from "@/components/ui/AudioButton";
 
 export default function Hero() {
+    const fullPlaylist = [
+        "/audio/Introduction.mp3",
+        "/audio/chapter-1.mp3",
+        "/audio/chapter-2.mp3",
+        "/audio/chapter-3.mp3",
+        "/audio/chapter-4.mp3",
+        "/audio/chapter-5.mp3"
+    ];
+
     const scrollToContent = () => {
         document.getElementById("context")?.scrollIntoView({ behavior: "smooth" });
     };
@@ -102,6 +111,7 @@ export default function Hero() {
                     <AudioButton
                         track="/audio/Introduction.mp3"
                         label="Introduction"
+                        playlist={fullPlaylist}
                         className="bg-transparent border-none hover:bg-maroon/5 pl-4 opacity-70 hover:opacity-100 transition-opacity"
                     />
                 </motion.div>

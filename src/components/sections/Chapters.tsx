@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { Sparkles } from "lucide-react";
+import { Sparkles, Lock } from "lucide-react";
 import Section from "@/components/ui/Section";
 import Modal from "@/components/ui/Modal";
 import AudioButton from "@/components/ui/AudioButton";
@@ -23,13 +23,32 @@ const ThemeChip = ({ label, onClick }: { label: string; onClick: () => void }) =
     </button>
 );
 
-const chapters = [
+import { ReflectionOption } from "@/components/ui/ReflectionModal";
+
+interface Chapter {
+    id: number;
+    title: string;
+    narrative: string;
+    audio: string;
+    image: string;
+    themes: { label: string; desc: string; modern: string }[];
+    reflection: {
+        title: string;
+        question: string;
+        options: ReflectionOption[];
+        feedback: { deep: string; shallow: string };
+    };
+    bg: string;
+    align: string;
+}
+
+const chapters: Chapter[] = [
     {
         id: 1,
         title: "The Palace & The Restless Heart",
         narrative: `The golden spires of Jalore pierced the sky, a testament to King Kuvalayachandra's power. Yet, amidst the fragrant garlands and courtly music, Prince Kuvalaya felt a gnawing emptiness. The silks that draped him felt like chains; the praise of poets sounded like hollow echoes. Sitting by the ornate window, watching the sun set over his kingdom, a profound question took root in his heart: "Is this theatre of pleasure all there is to existence?" It was here, in the lap of unparalleled luxury, that the first seed of renunciation—Vairagya—was quietly sown.`,
         audio: "/audio/chapter-1.mp3",
-        image: "/images/chapter-1-v2.png", // New image path (v2 to bust cache)
+        image: "/images/chapter-1-v2.png",
         themes: [
             {
                 label: "Vairagya (Detachment)",
@@ -39,8 +58,17 @@ const chapters = [
         ],
         reflection: {
             title: "Impermanence / Vairāgya",
-            question: "If comfort brings unease, what might be missing?",
-            options: ["Purpose", "Freedom", "Understanding"]
+            question: "When do you feel most empty, even when things seem 'good'?",
+            options: [
+                { text: "When I have everything I wanted but still feel bored.", type: "shallow" },
+                { text: "When I realize that nothing I have will last forever.", type: "deep" },
+                { text: "When others don't appreciate my success.", type: "shallow" },
+                { text: "When I see that my comfort requires others' labor.", type: "deep" }
+            ],
+            feedback: {
+                deep: "You've touched the root of Vairagya—seeing beyond the surface comfort to the transient nature of reality.",
+                shallow: "It's natural to feel that way. Kuvalaya felt it too—that the external world often fails to satisfy the internal spirit."
+            }
         },
         bg: "bg-paper",
         align: "left"
@@ -60,8 +88,17 @@ const chapters = [
         ],
         reflection: {
             title: "Karma / Choice",
-            question: "When facing uncertainty, what guides your next step most?",
-            options: ["Habit", "Advice from others", "My own values"]
+            question: "When you meet someone different from you, what is your first instinct?",
+            options: [
+                { text: "To judge them based on how they look.", type: "shallow" },
+                { text: "To wonder what their life experience has been like.", type: "deep" },
+                { text: "To avoid them if possible.", type: "shallow" },
+                { text: "To see myself in them.", type: "deep" }
+            ],
+            feedback: {
+                deep: "This empathy is the bridge between worlds. Kuvalaya learned that every stranger holds a mirror to our own humanity.",
+                shallow: "We often protect ourselves with judgment. The Prince had to unlearn his royal prejudices to truly see the world."
+            }
         },
         bg: "bg-[#EAE5D9]",
         align: "right"
@@ -81,10 +118,19 @@ const chapters = [
         ],
         reflection: {
             title: "Compassion / Karuṇā",
-            question: "When you notice someone in need, what do you usually do first?",
-            options: ["Step in to help", "Hesitate and observe", "Look away"]
+            question: "What makes it hardest to be kind?",
+            options: [
+                { text: "When I am tired or stressed.", type: "shallow" },
+                { text: "When I feel the other person doesn't deserve it.", type: "deep" },
+                { text: "When no one is watching.", type: "shallow" },
+                { text: "When kindness requires me to give up something I value.", type: "deep" }
+            ],
+            feedback: {
+                deep: "True compassion challenges our ego. Kuvalaya found that kindness is most powerful when it is most difficult.",
+                shallow: "Fatigue and stress are real barriers. Yet, the story suggests that kindness itself can be a source of strength."
+            }
         },
-        bg: "bg-paper", // Slightly darker paper
+        bg: "bg-paper",
         align: "left"
     },
     {
@@ -102,8 +148,17 @@ const chapters = [
         ],
         reflection: {
             title: "Humility / Vinaya",
-            question: "What is hardest to practice in moments of conflict?",
-            options: ["Listening without reacting", "Admitting I might be wrong", "Letting go of pride"]
+            question: "When someone points out your mistake, what is your immediate internal reaction?",
+            options: [
+                { text: "To defend myself and explain why I did it.", type: "shallow" },
+                { text: "To feel shame and hide.", type: "shallow" },
+                { text: "To observe the defensiveness without acting on it.", type: "deep" },
+                { text: "To allow the truth of it to change me.", type: "deep" }
+            ],
+            feedback: {
+                deep: "This openness is the essence of Vinaya (Humility). It transforms a mistake into a step towards liberation.",
+                shallow: "Defense is the ego's shield. The monk taught Kuvalaya that dropping the shield is the only way to truly grow."
+            }
         },
         bg: "bg-[#EAE5D9]",
         align: "right"
@@ -123,8 +178,17 @@ const chapters = [
         ],
         reflection: {
             title: "Integration / Dharma in action",
-            question: "Which value from the journey feels hardest to live by daily?",
-            options: ["Impermanence", "Compassion", "Humility"]
+            question: "What does 'conquering yourself' mean to you now?",
+            options: [
+                { text: "Being disciplined and strict.", type: "shallow" },
+                { text: "Understanding my own mind so it doesn't control me.", type: "deep" },
+                { text: "Being better than others.", type: "shallow" },
+                { text: "Finding peace regardless of external circumstances.", type: "deep" }
+            ],
+            feedback: {
+                deep: "A profound realization. Like the Jina, you see that true victory is internal freedom.",
+                shallow: "Discipline is a tool, but not the goal. The ultimate victory, as Kuvalaya found, is the peace that comes from understanding."
+            }
         },
         bg: "bg-paper",
         align: "left"
@@ -133,11 +197,13 @@ const chapters = [
 
 export { chapters }; // Export for Summary component
 
-import ReflectionCard from "@/components/ui/ReflectionCard";
+import ReflectionModal from "@/components/ui/ReflectionModal";
+import { useReflection } from "@/lib/ReflectionContext";
 
 export default function Chapters() {
     const [activeTheme, setActiveTheme] = useState<{ label: string; desc: string; modern: string } | null>(null);
     const [revealedVerse, setRevealedVerse] = useState<VerseData | null>(null);
+    const { isReflectionMode, isChapterUnlocked } = useReflection();
 
     return (
         <Section id="chapters" background="paper" className="py-0 px-0 md:px-0">
@@ -162,97 +228,128 @@ export default function Chapters() {
                 </motion.div>
             </div>
 
-            {chapters.map((chapter, index) => (
-                <div key={chapter.id} className="relative">
-                    <div className={`py-24 px-6 md:px-12 lg:px-24 ${chapter.bg} min-h-[90vh] flex items-center relative overflow-hidden`}>
-                        {/* Background Verse - Whispers of the Text */}
-                        <BackgroundVerse chapterId={chapter.id} onReveal={() => setRevealedVerse(verses[chapter.id])} />
+            {chapters.map((chapter, index) => {
+                const isUnlocked = !isReflectionMode || isChapterUnlocked(chapter.id);
 
-                        <div className={`max-w-6xl mx-auto w-full flex flex-col gap-12 ${chapter.align === "left" ? "md:flex-row" : "md:flex-row-reverse"} relative z-10 pointer-events-none`}>
-
-                            {/* Image Area */}
-                            <motion.div
-                                initial={{ opacity: 0, scale: 0.95 }}
-                                whileInView={{ opacity: 1, scale: 1 }}
-                                viewport={{ once: true, margin: "-100px" }}
-                                transition={{ duration: 0.8 }}
-                                className="flex-1 pointer-events-auto"
-                            >
-                                <div className="w-full aspect-[4/5] md:aspect-[3/4] rounded-sm bg-ink/5 border border-ink/10 relative overflow-hidden group shadow-lg">
-                                    {chapter.image ? (
-                                        <div className="relative w-full h-full">
-                                            <Image
-                                                src={chapter.image}
-                                                alt={chapter.title}
-                                                fill
-                                                className="object-cover sepia-[0.2] hover:sepia-0 transition-all duration-700"
-                                            />
-                                            <div className="absolute inset-0 bg-gradient-to-t from-ink/40 to-transparent opacity-60" />
-                                        </div>
-                                    ) : (
-                                        <>
-                                            <div className="absolute inset-0 bg-ink/10 group-hover:bg-ink/5 transition-colors duration-700" />
-                                            <div className="absolute inset-0 flex items-center justify-center opacity-30">
-                                                {/* Abstract Geomerty as placeholder */}
-                                                <div className="w-48 h-48 border-4 border-ink/20 rounded-full" />
-                                                <div className="absolute w-64 h-64 border border-ink/10 rounded-full" />
-                                            </div>
-                                        </>
-                                    )}
-                                    <span className="absolute bottom-4 right-4 text-xs font-serif italic text-white/80 z-10 px-2 py-1 bg-black/20 backdrop-blur-sm rounded">
-                                        Visual: {chapter.title}
-                                    </span>
-                                </div>
-                            </motion.div>
-
-                            {/* Text Area */}
-                            <motion.div
-                                initial={{ opacity: 0, x: chapter.align === "left" ? 50 : -50 }}
-                                whileInView={{ opacity: 1, x: 0 }}
-                                viewport={{ once: true, margin: "-100px" }}
-                                transition={{ duration: 0.8, delay: 0.2 }}
-                                className="flex-1 flex flex-col justify-center"
-                            >
-                                <div className="pointer-events-auto">
-                                    <div className="flex items-center gap-4 mb-6">
-                                        <span className="text-maroon font-serif font-bold tracking-widest uppercase text-sm">Chapter 0{chapter.id}</span>
-                                        <div className="h-px bg-maroon/20 flex-grow" />
-                                        <AudioButton track={chapter.audio} />
-                                    </div>
-
-                                    <h2 className="text-3xl md:text-5xl font-serif font-bold text-ink mb-8 leading-tight">{chapter.title}</h2>
-
-                                    <div className="text-lg md:text-xl leading-loose font-serif text-ink/80 mb-8 text-justify">
-                                        <p className="mb-6">
-                                            {chapter.narrative}
-                                        </p>
-
-                                        <div className="flex flex-wrap gap-2 mt-6">
-                                            {chapter.themes.map((theme, i) => (
-                                                <ThemeChip key={i} label={theme.label} onClick={() => setActiveTheme(theme)} />
-                                            ))}
-                                        </div>
-                                    </div>
-                                </div>
-                            </motion.div>
-
+                // If in reflection mode and NOT unlocked, show a locked state placeholder
+                if (!isUnlocked) {
+                    return (
+                        <div key={chapter.id} className="py-24 flex justify-center items-center bg-paper/50 min-h-[50vh] relative overflow-hidden">
+                            <div className="absolute inset-0 backdrop-blur-[2px] z-10" />
+                            <div className="z-20 text-center opacity-50">
+                                <Lock className="w-12 h-12 mx-auto mb-4 text-ink/30" />
+                                <p className="font-serif text-ink/40 tracking-widest uppercase text-sm">Chapter Locked</p>
+                                <p className="font-serif italic text-ink/30">Reflect on the previous path to continue.</p>
+                            </div>
                         </div>
-                    </div>
+                    );
+                }
 
-                    {/* Reflection Card Insert */}
-                    <ReflectionCard
-                        chapterId={chapter.id}
-                        title={chapter.reflection.title}
-                        question={chapter.reflection.question}
-                        options={chapter.reflection.options}
-                        onContinue={() => {
-                            // Logic to smooth scroll to next chapter could go here
-                            const nextChapter = document.getElementById(`chapter-${chapter.id + 1}`);
-                            // Or just close/collapse logic if needed, but for now simple flow
-                        }}
-                    />
-                </div>
-            ))}
+                return (
+                    <motion.div
+                        key={chapter.id}
+                        id={`chapter-${chapter.id}`}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 1 }}
+                        className="relative"
+                    >
+                        <div className={`py-24 px-6 md:px-12 lg:px-24 ${chapter.bg} min-h-[90vh] flex items-center relative overflow-hidden`}>
+                            {/* Background Verse - Whispers of the Text */}
+                            <BackgroundVerse chapterId={chapter.id} onReveal={() => setRevealedVerse(verses[chapter.id])} />
+
+                            <div className={`max-w-6xl mx-auto w-full flex flex-col gap-12 ${chapter.align === "left" ? "md:flex-row" : "md:flex-row-reverse"} relative z-10 pointer-events-none`}>
+
+                                {/* Image Area */}
+                                <motion.div
+                                    initial={{ opacity: 0, scale: 0.95 }}
+                                    whileInView={{ opacity: 1, scale: 1 }}
+                                    viewport={{ once: true, margin: "-100px" }}
+                                    transition={{ duration: 0.8 }}
+                                    className="flex-1 pointer-events-auto"
+                                >
+                                    <div className="w-full aspect-[4/5] md:aspect-[3/4] rounded-sm bg-ink/5 border border-ink/10 relative overflow-hidden group shadow-lg">
+                                        {chapter.image ? (
+                                            <div className="relative w-full h-full">
+                                                <Image
+                                                    src={chapter.image}
+                                                    alt={chapter.title}
+                                                    fill
+                                                    className="object-cover sepia-[0.2] hover:sepia-0 transition-all duration-700"
+                                                />
+                                                <div className="absolute inset-0 bg-gradient-to-t from-ink/40 to-transparent opacity-60" />
+                                            </div>
+                                        ) : (
+                                            <>
+                                                <div className="absolute inset-0 bg-ink/10 group-hover:bg-ink/5 transition-colors duration-700" />
+                                                <div className="absolute inset-0 flex items-center justify-center opacity-30">
+                                                    {/* Abstract Geomerty as placeholder */}
+                                                    <div className="w-48 h-48 border-4 border-ink/20 rounded-full" />
+                                                    <div className="absolute w-64 h-64 border border-ink/10 rounded-full" />
+                                                </div>
+                                            </>
+                                        )}
+                                        <span className="absolute bottom-4 right-4 text-xs font-serif italic text-white/80 z-10 px-2 py-1 bg-black/20 backdrop-blur-sm rounded">
+                                            Visual: {chapter.title}
+                                        </span>
+                                    </div>
+                                </motion.div>
+
+                                {/* Text Area */}
+                                <motion.div
+                                    initial={{ opacity: 0, x: chapter.align === "left" ? 50 : -50 }}
+                                    whileInView={{ opacity: 1, x: 0 }}
+                                    viewport={{ once: true, margin: "-100px" }}
+                                    transition={{ duration: 0.8, delay: 0.2 }}
+                                    className="flex-1 flex flex-col justify-center"
+                                >
+                                    <div className="pointer-events-auto">
+                                        <div className="flex items-center gap-4 mb-6">
+                                            <span className="text-maroon font-serif font-bold tracking-widest uppercase text-sm">Chapter 0{chapter.id}</span>
+                                            <div className="h-px bg-maroon/20 flex-grow" />
+                                            <AudioButton track={chapter.audio} />
+                                        </div>
+
+                                        <h2 className="text-3xl md:text-5xl font-serif font-bold text-ink mb-8 leading-tight">{chapter.title}</h2>
+
+                                        <div className="text-lg md:text-xl leading-loose font-serif text-ink/80 mb-8 text-justify">
+                                            <p className="mb-6">
+                                                {chapter.narrative}
+                                            </p>
+
+                                            <div className="flex flex-wrap gap-2 mt-6">
+                                                {chapter.themes.map((theme, i) => (
+                                                    <ThemeChip key={i} label={theme.label} onClick={() => setActiveTheme(theme)} />
+                                                ))}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </motion.div>
+
+                            </div>
+                        </div>
+
+
+                        {/* Reflection Trigger / Modal */}
+                        <ReflectionModal
+                            chapterId={chapter.id}
+                            title={chapter.reflection.title}
+                            question={chapter.reflection.question}
+                            options={chapter.reflection.options}
+                            feedback={chapter.reflection.feedback}
+                            onComplete={() => {
+                                // Smooth scroll to next chapter after a slight delay for animation
+                                setTimeout(() => {
+                                    const nextChapterElement = document.getElementById(`chapter-${chapter.id + 1}`);
+                                    if (nextChapterElement) {
+                                        nextChapterElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                                    }
+                                }, 600);
+                            }}
+                        />
+                    </motion.div>
+                )
+            })}
 
             <Modal isOpen={!!activeTheme} onClose={() => setActiveTheme(null)} title={activeTheme?.label}>
                 {activeTheme && (
@@ -276,6 +373,6 @@ export default function Chapters() {
                 onClose={() => setRevealedVerse(null)}
                 verse={revealedVerse}
             />
-        </Section>
+        </Section >
     );
 }

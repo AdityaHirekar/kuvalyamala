@@ -10,17 +10,27 @@ interface AudioButtonProps {
     track: string;
     label?: string;
     className?: string;
+    playlist?: string[];
 }
 
-export default function AudioButton({ track, label, className }: AudioButtonProps) {
+export default function AudioButton({ track, label, className, playlist: customPlaylist }: AudioButtonProps) {
     const { isPlaying, currentTrack, playTrack, isLoading } = useAudio();
     const isCurrentTrack = currentTrack === track;
     const isActive = isCurrentTrack && isPlaying;
     const isBuffering = isCurrentTrack && isLoading;
 
+    // Use custom playlist if provided, otherwise default to chapters
+    const playlist = customPlaylist || [
+        "/audio/chapter-1.mp3",
+        "/audio/chapter-2.mp3",
+        "/audio/chapter-3.mp3",
+        "/audio/chapter-4.mp3",
+        "/audio/chapter-5.mp3"
+    ];
+
     return (
         <button
-            onClick={() => playTrack(track)}
+            onClick={() => playTrack(track, playlist)}
             className={cn(
                 "group flex items-center gap-3 rounded-full pr-4 pl-1 py-1 transition-all duration-300 border",
                 isActive || isBuffering

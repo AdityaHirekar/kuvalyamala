@@ -11,6 +11,7 @@ import { AudioProvider } from "@/lib/AudioContext";
 import { VerseProvider } from "@/lib/VerseContext";
 import GlobalMute from "@/components/ui/GlobalMute";
 import VerseGlobalToggle from "@/components/ui/VerseGlobalToggle";
+import GlobalAudioPlayer from "@/components/ui/GlobalAudioPlayer";
 import { ReflectionProvider } from "@/lib/ReflectionContext";
 import ReflectionToggle from "@/components/ui/ReflectionToggle";
 import ReflectionsSummary from "@/components/sections/ReflectionsSummary";
@@ -23,6 +24,7 @@ export default function Home() {
       <VerseProvider>
         <ReflectionProvider>
           <main className="min-h-screen bg-paper overflow-x-hidden w-full m-0 p-0 selection:bg-maroon selection:text-white relative">
+            <GlobalAudioPlayer />
             <GlobalMute />
             <VerseGlobalToggle />
             <ReflectionToggle />
