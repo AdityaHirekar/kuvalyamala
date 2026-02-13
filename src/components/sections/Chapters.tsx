@@ -71,13 +71,13 @@ export default function Chapters() {
                     transition={{ duration: 1 }}
                 >
                     <p className="text-xl md:text-2xl font-serif text-ink italic leading-loose mb-8">
-                        "In the tapestry of ancient India, where kingdoms rose and fell and travellers carried stories across dusty roads, wisdom was often taught through journeys.
+                        "{t.prologue.p1}
                     </p>
                     <p className="text-xl md:text-2xl font-serif text-ink italic leading-loose mb-8">
-                        Kuvalaya-mālā is one such tale — composed in the 8th century by Uddyotana Sūri — where the outer road mirrors an inner awakening.
+                        {t.prologue.p2}
                     </p>
                     <p className="text-xl md:text-2xl font-serif text-ink italic leading-loose text-maroon">
-                        Our story begins in the royal city of Jalore, in a palace touched by gold and shadow alike."
+                        {t.prologue.p3}"
                     </p>
                     <div className="w-16 h-1 bg-maroon/20 mx-auto mt-12 mb-0 rounded-full" />
                 </motion.div>

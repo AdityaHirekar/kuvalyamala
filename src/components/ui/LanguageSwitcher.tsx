@@ -18,20 +18,18 @@ export default function LanguageSwitcher() {
     const [isOpen, setIsOpen] = useState(false);
 
     return (
-        <div className="fixed top-20 right-6 z-[100]">
+        <div className="fixed top-14 right-3 md:top-20 md:right-6 z-[100]">
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className={`p-2.5 rounded-full transition-all duration-300 border backdrop-blur-sm group relative
+                className={`p-2 md:p-2.5 rounded-full transition-all duration-300 border backdrop-blur-sm relative
                     ${isOpen
                         ? "bg-paper text-maroon border-maroon/20 shadow-sm"
                         : "bg-paper/50 text-ink/40 border-ink/10 hover:bg-paper hover:text-maroon hover:border-maroon/20"
                     }`}
                 aria-label={t.toggles.lang}
+                title={languages.find(l => l.code === language)?.native || t.toggles.lang}
             >
-                <Languages className="w-5 h-5" />
-                <span className="absolute right-full mr-3 top-1/2 -translate-y-1/2 bg-ink text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap">
-                    {languages.find(l => l.code === language)?.native || t.toggles.lang}
-                </span>
+                <Languages className="w-4 h-4 md:w-5 md:h-5" />
             </button>
 
             <AnimatePresence>

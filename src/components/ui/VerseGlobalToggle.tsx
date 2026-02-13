@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { ScrollText } from "lucide-react"; // Using ScrollText as an icon for manuscripts/verses
+import { ScrollText } from "lucide-react";
 import { useVerseContext } from "@/lib/VerseContext";
 import { motion } from "framer-motion";
 
@@ -21,20 +21,15 @@ export default function VerseGlobalToggle() {
             animate={{ opacity: 1 }}
             transition={{ delay: 1 }}
             onClick={toggleBackgroundVerses}
-            className={`fixed bottom-20 right-6 z-[100] p-2.5 rounded-full transition-all duration-300 border backdrop-blur-sm group
+            className={`fixed bottom-16 right-3 md:bottom-20 md:right-6 z-[100] p-2 md:p-2.5 rounded-full transition-all duration-300 border backdrop-blur-sm
                 ${showBackgroundVerses
                     ? "bg-maroon/10 text-maroon border-maroon/20 hover:bg-maroon hover:text-white"
                     : "bg-paper/50 text-ink/40 border-ink/10 hover:bg-paper hover:text-maroon hover:border-maroon/20"
                 }`}
             title={showBackgroundVerses ? "Hide Background Verses" : "Show Background Verses"}
         >
-            <ScrollText />
+            <ScrollText className="w-4 h-4 md:w-5 md:h-5" />
             <span className="sr-only">Toggle Background Verses</span>
-
-            {/* Tooltip */}
-            <span className="absolute right-full top-1/2 -translate-y-1/2 mr-3 px-2 py-1 bg-ink text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
-                {showBackgroundVerses ? "Hide Verses" : "Show Verses"}
-            </span>
         </motion.button>
     );
 }

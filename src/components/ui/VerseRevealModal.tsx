@@ -4,6 +4,7 @@ import React from "react";
 import { X, Sparkles } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { VerseData } from "@/lib/verses";
+import { useLanguage } from "@/lib/LanguageContext";
 
 interface VerseRevealModalProps {
     isOpen: boolean;
@@ -12,6 +13,8 @@ interface VerseRevealModalProps {
 }
 
 export default function VerseRevealModal({ isOpen, onClose, verse }: VerseRevealModalProps) {
+    const { language, t } = useLanguage();
+
     if (!verse) return null;
 
     return (
@@ -47,7 +50,7 @@ export default function VerseRevealModal({ isOpen, onClose, verse }: VerseReveal
                             <div className="p-8 md:p-10 text-center">
                                 <div className="flex items-center justify-center gap-2 mb-6 text-maroon/60 text-xs font-bold tracking-widest uppercase">
                                     <Sparkles size={12} />
-                                    <span>Whispers of the Text</span>
+                                    <span>{t.verses.title}</span>
                                     <Sparkles size={12} />
                                 </div>
 
@@ -62,7 +65,7 @@ export default function VerseRevealModal({ isOpen, onClose, verse }: VerseReveal
 
                                 {/* Meaning */}
                                 <div className="text-ink/80 text-lg leading-relaxed font-serif italic mb-6">
-                                    "{verse.meaning}"
+                                    "{verse.meaning[language]}"
                                 </div>
 
                                 {/* Source/Footer */}

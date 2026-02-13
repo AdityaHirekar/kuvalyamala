@@ -15,7 +15,7 @@ export default function GlobalMute() {
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             onClick={toggleMute}
-            className={`fixed bottom-6 right-6 z-[100] p-3 rounded-full shadow-xl border-2 transition-colors ${isMuted
+            className={`fixed bottom-4 right-3 md:bottom-6 md:right-6 z-[100] p-2 md:p-3 rounded-full shadow-xl border-2 transition-colors ${isMuted
                 ? "bg-maroon border-maroon text-white"
                 : "bg-paper border-ink/10 text-ink hover:border-maroon"
                 }`}
@@ -25,11 +25,11 @@ export default function GlobalMute() {
             <AnimatePresence mode="wait">
                 {isMuted ? (
                     <motion.div key="muted" initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }}>
-                        <VolumeX className="w-6 h-6" />
+                        <VolumeX className="w-5 h-5 md:w-6 md:h-6" />
                     </motion.div>
                 ) : (
                     <motion.div key="unmuted" initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }}>
-                        <Volume2 className="w-6 h-6" />
+                        <Volume2 className="w-5 h-5 md:w-6 md:h-6" />
                     </motion.div>
                 )}
             </AnimatePresence>

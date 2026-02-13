@@ -12,7 +12,7 @@ import KidsHero from "@/components/sections/KidsHero";
 import Section from "@/components/ui/Section";
 
 export default function Hero() {
-    const { t } = useLanguage();
+    const { t, language } = useLanguage();
     const { isKidsMode } = useKidsMode();
     const { scrollY } = useScroll();
     const opacity = useTransform(scrollY, [0, 300], [1, 0]);
@@ -22,7 +22,14 @@ export default function Hero() {
         return <KidsHero />;
     }
 
-    const fullPlaylist = [
+    const fullPlaylist = language === 'hi' ? [
+        "/audio/introhindi.mp3",
+        "/audio/chapter1hin.mp3",
+        "/audio/chapter2hin.mp3",
+        "/audio/chapter3hin.mp3",
+        "/audio/chapter4hin.mp3",
+        "/audio/chapter5hin.mp3"
+    ] : [
         "/audio/Introduction.mp3",
         "/audio/chapter-1.mp3",
         "/audio/chapter-2.mp3",
@@ -118,7 +125,7 @@ export default function Hero() {
                     </div>
 
                     <AudioButton
-                        track="/audio/Introduction.mp3"
+                        track={language === 'hi' ? "/audio/introhindi.mp3" : "/audio/Introduction.mp3"}
                         label="Introduction"
                         playlist={fullPlaylist}
                         className="bg-transparent border-none hover:bg-maroon/5 pl-4 opacity-70 hover:opacity-100 transition-opacity"

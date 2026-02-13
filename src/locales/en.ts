@@ -139,6 +139,45 @@ export const en = {
         mute: "Mute all audio",
         unmute: "Unmute all audio",
         lang: "Language"
+    },
+    verses: {
+        title: "Whispers of the Text"
+    },
+    prologue: {
+        p1: "In the tapestry of ancient India, where kingdoms rose and fell and travellers carried stories across dusty roads, wisdom was often taught through journeys.",
+        p2: "Kuvalaya-mālā is one such tale — composed in the 8th century by Uddyotana Sūri — where the outer road mirrors an inner awakening.",
+        p3: "Our story begins in the royal city of Jalore, in a palace touched by gold and shadow alike."
+    },
+    summary: {
+        title: "The Mirror of the Soul",
+        insightTitle: "Your Reflection Insight",
+        continue: "Continue the Journey",
+        traits: {
+            Awareness: {
+                text: "Your journey has been marked by a quiet observance. Like Prince Kuvalaya noticing the hollowness of the palace, you tend to see beyond the surface of things. This clarity is a rare gift. This suggests you are starting to catch yourself before you get swept away by the moment.",
+                question: "How can you use this sight to bring peace to those who cannot see?"
+            },
+            Compassion: {
+                text: "Your heart leans towards connection. Even when the world is harsh, you seek the human element within it. Kuvalaya found that this softness was not a weakness, but his greatest strength. This suggests you are finding strength in softness, rather than building walls.",
+                question: "Who needs your gentleness today, including yourself?"
+            },
+            Detachment: {
+                text: "You intuitively understand impermanence. You sense that holding on too tightly causes suffering. Like the Prince leaving his kingdom, you are learning the freedom of letting go. This suggests you’re becoming more aware of when attachment turns into pressure.",
+                question: "What burden are you ready to set down for good?"
+            },
+            Ego: {
+                text: "You are honest about your defenses. Recognizing the self's need to protect itself is the first step to true strength. Kuvalaya, too, had to face his own pride to find his true nature. This suggests you are beginning to see your own defenses, rather than becoming them.",
+                question: "What would you do if you had nothing to prove?"
+            },
+            Control: {
+                text: "You seek order in chaos. While structure provides safety, the Prince learned that life is a river, not a fortress. Your challenge—and your liberation—lies in trusting the flow. This suggests you are learning to trust the flow of life, rather than trying to force it.",
+                question: "What beautiful thing might happen if you loosened your grip?"
+            },
+            Default: {
+                text: "You are walking the path with open eyes. Like the Prince, you are questioning, feeling, and seeking. The answers are less important than the sincerity of your search.",
+                question: "Where will your inner road lead you next?"
+            }
+        }
     }
 };
 

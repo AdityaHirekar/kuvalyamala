@@ -1,8 +1,10 @@
+import { Language } from "./LanguageContext";
+
 export interface VerseData {
     chapterId: number;
     fragment: string;
     fullVerse: string;
-    meaning: string;
+    meaning: Record<Language, string>;
     source?: string;
 }
 
@@ -11,35 +13,65 @@ export const verses: Record<number, VerseData> = {
         chapterId: 1,
         fragment: "कुशाग्रजलविन्दुवत्",
         fullVerse: "जीवितं यौवनं लक्ष्मीलीवण्यं प्रियसंगमः ।\nसर्व चलाचलं लोके कुशाग्रजलविन्दुवत् ॥",
-        meaning: "Life, youth, wealth, beauty, and the company of the beloved are fleeting — like a drop of water on the tip of grass.",
+        meaning: {
+            en: "Life, youth, wealth, beauty, and the company of the beloved are fleeting — like a drop of water on the tip of grass.",
+            hi: "जीवन, यौवन, धन, सौंदर्य और प्रियजनों का साथ — सब क्षणभंगुर हैं, जैसे घास की नोक पर पानी की बूंद।",
+            mr: "जीवन, तारुण्य, संपत्ती, सौंदर्य आणि प्रियजनांची संगत — सर्व क्षणभंगुर आहे, जसे गवताच्या टोकावरील पाण्याचा थेंब.",
+            ta: "வாழ்க்கை, இளமை, செல்வம், அழகு மற்றும் அன்புக்குரியவரின் தோழமை — எல்லாம் நிலையற்றவை, புல் நுனியில் ஒரு நீர்த்துளி போல.",
+            te: "జీవితం, యౌవనం, సంపద, అందం మరియు ప్రియుల సాంగత్యం — అన్నీ అశాశ్వతమైనవి, గడ్డి కొన మీద నీటి బొట్టు వలె."
+        },
         source: "Kuvalayamālā"
     },
     2: {
         chapterId: 2,
         fragment: "कर्मणा राज्यं हार्यते",
         fullVerse: "अयेते कर्मणा राज्यं हार्यते ऽपि च कर्मणा।\nविद्वान् विना न को ऽप्यस्ति कर्मणो हन्ति मर्म यः ॥ ५",
-        meaning: "By one’s actions, a kingdom is gained; by one’s actions, it is also lost. True wisdom lies in understanding the power of action.",
+        meaning: {
+            en: "By one's actions, a kingdom is gained; by one's actions, it is also lost. True wisdom lies in understanding the power of action.",
+            hi: "कर्मों से राज्य प्राप्त होता है; कर्मों से ही खोया भी जाता है। सच्ची बुद्धि कर्म की शक्ति को समझने में निहित है।",
+            mr: "कर्मांनी राज्य मिळवले जाते; कर्मांनीच ते गमावले जाते. खरे शहाणपण कर्माची शक्ती समजून घेण्यात आहे.",
+            ta: "செயல்களால் ஒரு ராஜ்ஜியம் பெறப்படுகிறது; செயல்களால் அது இழக்கப்படுகிறது. உண்மையான ஞானம் செயலின் சக்தியைப் புரிந்துகொள்வதில் உள்ளது.",
+            te: "కర్మల ద్వారా రాజ్యం సాధించబడుతుంది; కర్మల ద్వారానే కోల్పోతారు. నిజమైన జ్ఞానం కర్మ శక్తిని అర్థం చేసుకోవడంలో ఉంది."
+        },
         source: "Kuvalayamālā, Verse 5"
     },
     3: {
         chapterId: 3,
         fragment: "कृपासंपूरितस्वान्तः",
         fullVerse: "कृपासंपूरितस्वान्तः स तयोरन्तरा स्थितः ।\nयतः प्राणिपरित्राणं स्वप्राणैः के ऽपि कुर्वते ॥",
-        meaning: "With a heart full of compassion, one stands between harm and the helpless; some protect living beings even at the cost of their own lives.",
+        meaning: {
+            en: "With a heart full of compassion, one stands between harm and the helpless; some protect living beings even at the cost of their own lives.",
+            hi: "करुणा से भरे हृदय के साथ, कोई हानि और असहाय के बीच खड़ा होता है; कुछ लोग अपने प्राणों की कीमत पर भी जीवों की रक्षा करते हैं।",
+            mr: "करुणेने भरलेल्या हृदयाने, कोणी हानी आणि असहाय्य यांच्यामध्ये उभे राहतो; काही जण आपल्या प्राणांची किंमत देऊनही जीवांचे रक्षण करतात.",
+            ta: "கருணை நிறைந்த இதயத்துடன், ஒருவர் தீமைக்கும் உதவியற்றவர்களுக்கும் இடையே நிற்கிறார்; சிலர் தங்கள் உயிரைத் தியாகம் செய்தாவது உயிரினங்களைப் பாதுகாக்கிறார்கள்.",
+            te: "కరుణతో నిండిన హృదయంతో, ఒకరు హాని మరియు అసహాయుల మధ్య నిలబడతారు; కొందరు తమ ప్రాణాలను అర్పించైనా జీవుల రక్షణ చేస్తారు."
+        },
         source: "Kuvalayamālā"
     },
     4: {
         chapterId: 4,
         fragment: "विनयः शासने मूलं",
         fullVerse: "विनयः शासने मूलं विनीतः संयतो भवेत् ।\nविनयाद्विप्रमुक्तस्य कुतो धर्मः कुतस्तपः ॥",
-        meaning: "Humility is the root of discipline; without humility, there can be neither righteousness nor self-restraint.",
+        meaning: {
+            en: "Humility is the root of discipline; without humility, there can be neither righteousness nor self-restraint.",
+            hi: "विनम्रता अनुशासन की जड़ है; विनम्रता के बिना न धर्म हो सकता है और न ही आत्म-संयम।",
+            mr: "नम्रता ही शिस्तीची मुळे आहे; नम्रतेशिवाय धार्मिकता किंवा आत्मसंयम असू शकत नाही.",
+            ta: "பணிவு ஒழுக்கத்தின் வேர்; பணிவு இல்லாமல், நேர்மையோ சுய கட்டுப்பாடோ இருக்க முடியாது.",
+            te: "వినయం క్రమశిక్షణకు మూలం; వినయం లేకుండా, ధర్మం లేదా ఆత్మనిగ్రహం ఉండదు."
+        },
         source: "Kuvalayamālā"
     },
     5: {
         chapterId: 5,
         fragment: "आत्मैव ह्यात्मनो बन्धुः",
         fullVerse: "आत्मैव ह्यात्मनो बन्धुरात्मैव रिपुरात्मनः ।\nउद्धरेदात्मनात्मानं नात्मानमवसादयेत् ॥",
-        meaning: "The self is indeed the friend of the self, and the self is also the enemy of the self. One should elevate oneself by one's own self, not degrade oneself.",
+        meaning: {
+            en: "The self is indeed the friend of the self, and the self is also the enemy of the self. One should elevate oneself by one's own self, not degrade oneself.",
+            hi: "आत्मा ही आत्मा का मित्र है, और आत्मा ही आत्मा का शत्रु है। व्यक्ति को स्वयं से स्वयं का उद्धार करना चाहिए, न कि स्वयं को गिराना चाहिए।",
+            mr: "आत्मा हाच आत्म्याचा मित्र आहे, आणि आत्मा हाच आत्म्याचा शत्रू आहे. स्वतःच्या आत्म्याने स्वतःला उन्नत करावे, स्वतःला अधोगतीला लावू नये.",
+            ta: "ஆன்மாவே ஆன்மாவின் நண்பன், ஆன்மாவே ஆன்மாவின் எதிரியும் ஆகும். ஒருவர் தன்னையே தன்னால் உயர்த்திக்கொள்ள வேண்டும், தன்னைத் தாழ்த்திக்கொள்ளக் கூடாது.",
+            te: "ఆత్మయే ఆత్మకు మిత్రుడు, ఆత్మయే ఆత్మకు శత్రువు. ఒకరు తమ ఆత్మచేతనే తమను తాము ఉద్ధరించుకోవాలి, తమను తాము అధోగతిపాలు చేయకూడదు."
+        },
         source: "Classical Verse (Theme: Self-Conquest)"
     }
 };
