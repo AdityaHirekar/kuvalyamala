@@ -41,6 +41,8 @@ export default function Chapters() {
     const { isKidsMode } = useKidsMode();
     const chapters = getChapters(language);
 
+    if (isKidsMode) return <KidsChapters />;
+
     const [activeTheme, setActiveTheme] = useState<{ label: string; desc: string; modern: string } | null>(null);
     const [revealedVerse, setRevealedVerse] = useState<VerseData | null>(null);
     const [showSummary, setShowSummary] = useState(false);
