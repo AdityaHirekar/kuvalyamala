@@ -4,7 +4,8 @@ import React, { useEffect, useState } from "react";
 import { useAudio } from "@/lib/AudioContext";
 import { Play, Pause, SkipBack, SkipForward, X, Volume2, VolumeX, Disc } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { chapters } from "@/components/sections/Chapters";
+import { getChapters } from "@/lib/chaptersData";
+import { useLanguage } from "@/lib/LanguageContext";
 
 export default function GlobalAudioPlayer() {
     const {
@@ -23,6 +24,9 @@ export default function GlobalAudioPlayer() {
         duration,
         seek
     } = useAudio();
+
+    const { language } = useLanguage();
+    const chapters = getChapters(language);
 
     const [isVisible, setIsVisible] = useState(false);
     const [isDragging, setIsDragging] = useState(false);

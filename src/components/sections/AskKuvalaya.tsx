@@ -18,7 +18,15 @@ const promptChips = [
     "Do you regret leaving your kingdom?"
 ];
 
+import { useLanguage } from "@/lib/LanguageContext";
+
+interface Message {
+    role: "user" | "kuvalaya";
+    content: string;
+}
+
 export default function AskKuvalaya() {
+    const { t } = useLanguage();
     const [isActive, setIsActive] = useState(false);
     const [messages, setMessages] = useState<Message[]>([]);
     const [inputValue, setInputValue] = useState("");
@@ -109,13 +117,13 @@ export default function AskKuvalaya() {
                         <div className="inline-block p-4 bg-maroon/5 rounded-full mb-6">
                             <Sparkles className="w-10 h-10 text-maroon opacity-80" />
                         </div>
-                        <h2 className="text-3xl md:text-5xl font-serif font-bold text-ink mb-6">Ask Prince Kuvalaya</h2>
+                        <h2 className="text-3xl md:text-5xl font-serif font-bold text-ink mb-6">{t.ask.title}</h2>
                         <p className="text-xl font-serif text-ink/70 italic max-w-2xl mx-auto mb-10">
-                            "I have walked the path from royalty to renunciation. Ask me of my journey, or the doubts that burden your own heart."
+                            {t.ask.subtitle}
                         </p>
 
                         <div className="flex flex-wrap justify-center gap-3 mb-10 max-w-2xl mx-auto">
-                            {promptChips.map((prompt, idx) => (
+                            {t.ask.prompts.map((prompt, idx) => (
                                 <button
                                     key={idx}
                                     onClick={() => startChat(prompt)}
@@ -132,12 +140,12 @@ export default function AskKuvalaya() {
                                 size="lg"
                                 className="bg-maroon text-white hover:bg-maroon/90 px-8 py-4 text-lg shadow-xl shadow-maroon/20"
                             >
-                                Start Conversation
+                                {t.ask.start}
                             </Button>
                         </div>
 
                         <p className="mt-8 text-xs text-ink/40 uppercase tracking-widest">
-                            Powered by AI • Responses for reflection only
+                            {t.ask.poweredBy}
                         </p>
                     </motion.div>
                 ) : (
@@ -154,8 +162,8 @@ export default function AskKuvalaya() {
                                     <Sparkles className="w-5 h-5 text-maroon" />
                                 </div>
                                 <div>
-                                    <h3 className="font-serif font-bold text-ink text-lg">Prince Kuvalaya</h3>
-                                    <p className="text-xs text-ink/50 uppercase tracking-wider">Reflective AI Persona</p>
+                                    <h3 className="font-serif font-bold text-ink text-lg">{t.ask.persona.name}</h3>
+                                    <p className="text-xs text-ink/50 uppercase tracking-wider">{t.ask.persona.role}</p>
                                 </div>
                             </div>
                             <button
@@ -171,7 +179,7 @@ export default function AskKuvalaya() {
                         <div className="flex-1 overflow-y-auto p-6 space-y-6 bg-paper scroll-smooth">
                             {messages.length === 0 && !isLoading && (
                                 <div className="text-center text-ink/40 py-20 italic font-serif">
-                                    "The silence is yours to break..."
+                                    {t.ask.empty}
                                 </div>
                             )}
 
@@ -232,7 +240,7 @@ export default function AskKuvalaya() {
                                     type="text"
                                     value={inputValue}
                                     onChange={(e) => setInputValue(e.target.value)}
-                                    placeholder="Ask a question..."
+                                    placeholder={t.ask.placeholder}
                                     className="flex-1 bg-white border border-ink/10 rounded-full px-5 py-3 text-ink focus:outline-none focus:border-maroon/40 focus:ring-1 focus:ring-maroon/20 transition-all font-serif placeholder:italic"
                                     disabled={isLoading}
                                 />

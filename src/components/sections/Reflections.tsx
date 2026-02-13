@@ -21,7 +21,10 @@ const reflections = [
     }
 ];
 
+import { useLanguage } from "@/lib/LanguageContext";
+
 export default function Reflections() {
+    const { t } = useLanguage();
     const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
     return (
@@ -34,16 +37,16 @@ export default function Reflections() {
                     className="mb-16"
                 >
                     <h2 className="text-3xl md:text-5xl font-serif font-bold text-ink mb-6">
-                        Why This Story Matters
+                        {t.reflections.sectionTitle}
                     </h2>
                     <p className="text-ink/60 italic font-serif text-lg mb-8 max-w-2xl mx-auto">
-                        "The questions of the 8th century are the questions of today. Tap a card to explore."
+                        {t.reflections.sectionSubtitle}
                     </p>
                     <div className="w-16 h-1 bg-maroon/20 mx-auto rounded-full" />
                 </motion.div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 items-start">
-                    {reflections.map((item, index) => (
+                    {t.reflections.cards.map((item, index) => (
                         <motion.div
                             key={index}
                             layout
@@ -90,7 +93,7 @@ export default function Reflections() {
                                                 {item.question}
                                             </p>
                                             <p className="mt-6 text-xs uppercase tracking-widest text-ink/30 font-bold group-hover:text-ink/50">
-                                                Tap to Reveal
+                                                {t.values.mobileHint}
                                             </p>
                                         </motion.div>
                                     )}

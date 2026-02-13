@@ -34,7 +34,14 @@ const questions = [
     },
 ];
 
+import { useLanguage } from "@/lib/LanguageContext";
+
 export default function Quiz() {
+    const { t } = useLanguage();
+    const questions = t.quiz.questions.map((q, i) => ({ ...q, id: i + 1, correct: [1, 0, 2, 3][i] ?? 0 })); // Mapping back correct answers as they are structural logic, not text.
+    // NOTE: In a real app, 'correct' index should probably be part of the data or logic, not hardcoded here by index.
+    // For now, relying on the order of questions in dictionary matching current order.
+
     const [currentQ, setCurrentQ] = useState(0);
     const [selected, setSelected] = useState<number | null>(null);
     const [showResult, setShowResult] = useState(false);
@@ -74,8 +81,8 @@ export default function Quiz() {
                     viewport={{ once: true }}
                     className="text-center mb-10"
                 >
-                    <h2 className="text-3xl md:text-4xl font-serif font-bold text-ink mb-2">Test Your Knowledge</h2>
-                    <p className="text-ink/60">Take a quick quiz to verify your understanding.</p>
+                    <h2 className="text-3xl md:text-4xl font-serif font-bold text-ink mb-2">{t.quiz.title}</h2>
+                    <p className="text-ink/60">{t.quiz.subtitle}</p>
                 </motion.div>
 
                 <AnimatePresence mode="wait">
@@ -89,7 +96,7 @@ export default function Quiz() {
                         >
                             <Card className="min-h-[300px] flex flex-col justify-center">
                                 <span className="text-sm font-bold text-maroon mb-4 block uppercase tracking-wider">
-                                    Question {currentQ + 1} of {questions.length}
+                                    {t.quiz.question} {currentQ + 1} {t.quiz.outOf} {questions.length}
                                 </span>
                                 <h3 className="text-xl md:text-2xl font-bold text-ink mb-8">
                                     {questions[currentQ].text}
@@ -103,8 +110,7 @@ export default function Quiz() {
                                         const showWrong = isSelected && !isCorrect;
 
                                         let btnVariant: "outline" | "primary" | "secondary" = "outline";
-                                        if (showCorrect) btnVariant = "secondary"; // Greenish handling via CSS usually, but reusing variants
-                                        // We'll rely on class manipulation for success/error colors since variants are limited
+                                        if (showCorrect) btnVariant = "secondary";
 
                                         return (
                                             <button
@@ -146,12 +152,12 @@ export default function Quiz() {
                                         </div>
                                     )}
                                 </div>
-                                <h3 className="text-3xl font-serif font-bold text-ink mb-2">Quiz Completed!</h3>
+                                <h3 className="text-3xl font-serif font-bold text-ink mb-2">{t.quiz.completed}</h3>
                                 <p className="text-xl text-ink/70 mb-8">
-                                    You scored <span className="font-bold text-maroon">{score}</span> out of {questions.length}
+                                    {t.quiz.score} <span className="font-bold text-maroon">{score}</span> {t.quiz.outOf} {questions.length}
                                 </p>
                                 <Button onClick={resetQuiz} className="gap-2">
-                                    <RefreshCw className="w-4 h-4" /> Try Again
+                                    <RefreshCw className="w-4 h-4" /> {t.quiz.tryAgain}
                                 </Button>
                             </Card>
                         </motion.div>

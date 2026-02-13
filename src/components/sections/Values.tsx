@@ -39,8 +39,19 @@ const values = [
     }
 ];
 
+import { useLanguage } from "@/lib/LanguageContext";
+
 export default function Values() {
+    const { t } = useLanguage();
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+
+    // Map icons to the translated items based on index
+    // Note: This relies on the order in the dictionary matching the icons
+    const icons = [Leaf, Heart, Shield, Scale, Lightbulb];
+    const itemsWithIcons = t.values.items.map((item, index) => ({
+        ...item,
+        icon: icons[index] || Leaf
+    }));
 
     return (
         <Section id="values" background="stone" className="py-24 overflow-hidden">
@@ -52,14 +63,14 @@ export default function Values() {
                     className="text-center mb-16"
                 >
                     <h2 className="text-3xl md:text-5xl font-serif font-bold text-ink mb-6">
-                        The Values Woven into the Journey
+                        {t.values.title}
                     </h2>
                     <div className="w-24 h-1 bg-maroon mx-auto rounded-full opacity-50" />
                 </motion.div>
 
                 {/* Interactive Accordion */}
                 <div className="flex flex-col md:flex-row gap-4 h-auto md:h-[500px] w-full min-h-[500px] md:min-h-0 items-stretch justify-center">
-                    {values.map((item, index) => {
+                    {itemsWithIcons.map((item, index) => {
                         const isHovered = hoveredIndex === index;
                         // Default active logic:
                         // On mobile: Click to activate.
@@ -149,7 +160,7 @@ export default function Values() {
                     })}
                 </div>
                 <p className="text-center text-ink/40 text-sm mt-8 font-serif italic md:hidden">
-                    Tap a card to explore
+                    {t.values.mobileHint}
                 </p>
             </div>
         </Section>

@@ -4,26 +4,29 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Feather, Hourglass, Languages, ScrollText } from "lucide-react";
 import Section from "@/components/ui/Section";
-
-const contextItems = [
-    {
-        icon: Feather,
-        label: "Author",
-        value: "Uddyotana Sūri",
-    },
-    {
-        icon: Hourglass,
-        label: "Time Period",
-        value: "8th Century CE",
-    },
-    {
-        icon: Languages,
-        label: "Language",
-        value: "Prakrit",
-    },
-];
+import { useLanguage } from "@/lib/LanguageContext";
 
 export default function Context() {
+    const { t } = useLanguage();
+
+    const contextItems = [
+        {
+            icon: Feather,
+            label: t.context.labels.author,
+            value: t.context.author,
+        },
+        {
+            icon: Hourglass,
+            label: t.context.labels.timePeriod,
+            value: t.context.timePeriod,
+        },
+        {
+            icon: Languages,
+            label: t.context.labels.language,
+            value: t.context.language,
+        },
+    ];
+
     return (
         <Section id="context" background="stone" className="py-24">
             <div className="max-w-4xl mx-auto text-center">
@@ -35,10 +38,8 @@ export default function Context() {
                 >
                     <ScrollText className="w-10 h-10 text-maroon mx-auto mb-4 opacity-50" />
                     <p className="text-2xl md:text-3xl font-serif text-ink italic leading-relaxed mb-6">
-                        "In a world of dry instruction, stories differ.<br />
-                        They are the sugar-coating that makes the medicine of wisdom sweet."
+                        {t.context.quote}
                     </p>
-                    <p className="text-sm uppercase tracking-widest text-ink/50">— Adapted from text introduction</p>
                 </motion.div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">

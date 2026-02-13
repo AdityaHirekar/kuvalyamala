@@ -6,8 +6,10 @@ import { ChevronDown, BookOpen } from "lucide-react";
 import Section from "@/components/ui/Section";
 import Button from "@/components/ui/Button";
 import AudioButton from "@/components/ui/AudioButton";
+import { useLanguage } from "@/lib/LanguageContext";
 
 export default function Hero() {
+    const { t } = useLanguage();
     const fullPlaylist = [
         "/audio/Introduction.mp3",
         "/audio/chapter-1.mp3",
@@ -69,7 +71,7 @@ export default function Hero() {
                     transition={{ duration: 1.2, delay: 0.3, ease: "easeOut" }}
                     className="text-5xl md:text-7xl lg:text-8xl font-serif font-bold text-ink mb-6 tracking-tight leading-none"
                 >
-                    Kuvalaya-mālā
+                    {t.hero.title}
                 </motion.h1>
 
                 {/* Subtitle Entrance - The Hook */}
@@ -79,13 +81,8 @@ export default function Hero() {
                     transition={{ duration: 1.5, delay: 1 }}
                 >
                     <p className="text-xl md:text-3xl text-ink/80 max-w-2xl mx-auto mb-10 font-serif italic leading-relaxed">
-                        "A prince who had everything — except peace."
+                        "{t.hero.subtitle}"
                     </p>
-
-                    {/* Alternative Options (Commented for reference): 
-                        "When power failed to quiet the heart." 
-                        "From palace to path: a story of awakening." 
-                    */}
                 </motion.div>
 
                 {/* Actions Entrance */}
@@ -101,10 +98,10 @@ export default function Hero() {
                             size="lg"
                             className="bg-transparent border border-maroon/30 text-ink hover:bg-maroon hover:text-white hover:border-maroon transition-all duration-700 font-serif px-12 py-4 text-lg rounded-sm tracking-widest uppercase"
                         >
-                            Begin the Journey
+                            {t.hero.cta}
                         </Button>
                         <span className="text-xs font-serif text-ink/40 tracking-wider italic">
-                            Listen to the story unfold as you explore.
+                            {t.hero.scroll}
                         </span>
                     </div>
 
