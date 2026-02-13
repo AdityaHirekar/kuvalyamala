@@ -33,7 +33,7 @@ export default function Footer() {
 
                     <div className="flex flex-col items-center gap-2 text-sm text-blue-200">
                         <p className="opacity-80">{t.footer.project}</p>
-                        <a href="#" className="hover:text-yellow-300 transition-colors flex items-center gap-2 mt-2 font-bold bg-white/10 px-4 py-2 rounded-full hover:bg-white/20">
+                        <a href="https://github.com/AdityaHirekar/kuvalyamala.git" target="_blank" rel="noopener noreferrer" className="hover:text-yellow-300 transition-colors flex items-center gap-2 mt-2 font-bold bg-white/10 px-4 py-2 rounded-full hover:bg-white/20">
                             <Github className="w-5 h-5" /> {t.footer.source}
                         </a>
                     </div>
@@ -61,7 +61,7 @@ export default function Footer() {
 
                 <div className="flex flex-col items-center gap-2 text-sm text-white/40">
                     <p>{t.footer.project}</p>
-                    <a href="#" className="hover:text-white transition-colors flex items-center gap-2 mt-2">
+                    <a href="https://github.com/AdityaHirekar/kuvalyamala.git" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors flex items-center gap-2 mt-2">
                         <Github className="w-4 h-4" /> {t.footer.source}
                     </a>
                 </div>
