@@ -9,6 +9,7 @@ import AudioButton from "@/components/ui/AudioButton";
 import { useLanguage } from "@/lib/LanguageContext";
 import { useKidsMode } from "@/lib/KidsModeContext";
 import KidsHero from "@/components/sections/KidsHero";
+import Section from "@/components/ui/Section";
 
 export default function Hero() {
     const { t } = useLanguage();
