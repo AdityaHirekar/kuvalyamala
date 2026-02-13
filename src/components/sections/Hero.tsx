@@ -1,15 +1,26 @@
 "use client";
 
 import React from "react";
-import { motion } from "framer-motion";
-import { ChevronDown, BookOpen } from "lucide-react";
-import Section from "@/components/ui/Section";
+import Link from "next/link";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { ChevronDown, BookOpen, ArrowRight } from "lucide-react";
 import Button from "@/components/ui/Button";
 import AudioButton from "@/components/ui/AudioButton";
 import { useLanguage } from "@/lib/LanguageContext";
+import { useKidsMode } from "@/lib/KidsModeContext";
+import KidsHero from "@/components/sections/KidsHero";
 
 export default function Hero() {
     const { t } = useLanguage();
+    const { isKidsMode } = useKidsMode();
+    const { scrollY } = useScroll();
+    const opacity = useTransform(scrollY, [0, 300], [1, 0]);
+    const y = useTransform(scrollY, [0, 300], [0, 100]);
+
+    if (isKidsMode) {
+        return <KidsHero />;
+    }
+
     const fullPlaylist = [
         "/audio/Introduction.mp3",
         "/audio/chapter-1.mp3",

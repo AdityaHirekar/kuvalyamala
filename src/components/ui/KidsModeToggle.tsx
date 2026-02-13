@@ -19,7 +19,7 @@ export default function KidsModeToggle() {
     // Kids: top-36? (144px) 
 
     return (
-        <div className="fixed top-36 right-6 z-50">
+        <div className="fixed top-36 right-6 z-[100]">
             <motion.button
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}

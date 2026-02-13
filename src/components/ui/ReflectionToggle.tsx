@@ -21,7 +21,7 @@ export default function ReflectionToggle() {
             animate={{ opacity: 1 }}
             transition={{ delay: 1.2 }}
             onClick={toggleReflectionMode}
-            className={`fixed top-6 right-6 z-50 p-2.5 rounded-full transition-all duration-300 border backdrop-blur-sm group
+            className={`fixed top-6 right-6 z-[100] p-2.5 rounded-full transition-all duration-300 border backdrop-blur-sm group
                 ${isReflectionMode
                     ? "bg-maroon/10 text-maroon border-maroon/20 hover:bg-maroon hover:text-white"
                     : "bg-paper/50 text-ink/40 border-ink/10 hover:bg-paper hover:text-maroon hover:border-maroon/20"

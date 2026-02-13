@@ -18,7 +18,7 @@ export default function LanguageSwitcher() {
     const [isOpen, setIsOpen] = useState(false);
 
     return (
-        <div className="fixed top-20 right-6 z-50">
+        <div className="fixed top-20 right-6 z-[100]">
             <button
                 onClick={() => setIsOpen(!isOpen)}
                 className={`p-2.5 rounded-full transition-all duration-300 border backdrop-blur-sm group relative

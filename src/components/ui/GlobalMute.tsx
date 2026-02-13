@@ -15,9 +15,9 @@ export default function GlobalMute() {
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             onClick={toggleMute}
-            className={`fixed bottom-6 right-6 z-50 p-3 rounded-full shadow-xl border-2 transition-colors ${isMuted
-                    ? "bg-maroon border-maroon text-white"
-                    : "bg-paper border-ink/10 text-ink hover:border-maroon"
+            className={`fixed bottom-6 right-6 z-[100] p-3 rounded-full shadow-xl border-2 transition-colors ${isMuted
+                ? "bg-maroon border-maroon text-white"
+                : "bg-paper border-ink/10 text-ink hover:border-maroon"
                 }`}
             aria-label={isMuted ? "Unmute all audio" : "Mute all audio"}
             title="Classroom Mode: Mute All"
