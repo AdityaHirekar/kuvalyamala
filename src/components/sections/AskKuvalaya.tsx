@@ -21,6 +21,22 @@ const promptChips = [
 import { useLanguage } from "@/lib/LanguageContext";
 import { useKidsMode } from "@/lib/KidsModeContext";
 
+// Kids Mode Content
+const kidsText = {
+    title: "Chat with Prince Kuvalaya",
+    subtitle: "I am here to be your friend! Ask me anything about happiness, kindness, or my story.",
+    prompts: [
+        "Why are you happy?",
+        "How can I be kind?",
+        "Tell me a story!",
+        "Do you like animals?"
+    ],
+    placeholder: "Type your message here...",
+    empty: "Say hello to the Prince! 👋",
+    start: "Start Chatting",
+    poweredBy: "Powered by AI Magic ✨"
+};
+
 interface Message {
     role: "user" | "kuvalaya";
     content: string;
@@ -29,6 +45,11 @@ interface Message {
 export default function AskKuvalaya() {
     const { t } = useLanguage();
     const { isKidsMode } = useKidsMode();
+
+    // Select content based on mode
+    const content = isKidsMode ? kidsText : t.ask;
+    const prompts = isKidsMode ? kidsText.prompts : t.ask.prompts;
+
     const [isActive, setIsActive] = useState(false);
     const [messages, setMessages] = useState<Message[]>([]);
     const [inputValue, setInputValue] = useState("");
@@ -183,8 +204,12 @@ export default function AskKuvalaya() {
                                     <Sparkles className="w-5 h-5 text-maroon" />
                                 </div>
                                 <div>
-                                    <h3 className="font-serif font-bold text-ink text-lg">{t.ask.persona.name}</h3>
-                                    <p className="text-xs text-ink/50 uppercase tracking-wider">{t.ask.persona.role}</p>
+                                    <h3 className="font-serif font-bold text-ink text-lg">
+                                        {isKidsMode ? "Prince Kuvalaya" : t.ask.persona.name}
+                                    </h3>
+                                    <p className="text-xs text-ink/50 uppercase tracking-wider">
+                                        {isKidsMode ? "Friendly Guide" : t.ask.persona.role}
+                                    </p>
                                 </div>
                             </div>
                             <button
