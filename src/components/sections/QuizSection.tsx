@@ -35,10 +35,16 @@ const questions = [
 ];
 
 import { useLanguage } from "@/lib/LanguageContext";
+import { useKidsMode } from "@/lib/KidsModeContext";
 
 export default function Quiz() {
     const { t } = useLanguage();
-    const questions = t.quiz.questions.map((q, i) => ({ ...q, id: i + 1, correct: [1, 0, 2, 3][i] ?? 0 })); // Mapping back correct answers as they are structural logic, not text.
+    const { isKidsMode } = useKidsMode();
+
+    // Mapping back correct answers as they are structural logic, not text.
+    const questions = t.quiz.questions.map((q, i) => ({ ...q, id: i + 1, correct: [1, 0, 2, 3][i] ?? 0 }));
+
+    if (isKidsMode) return null;
     // NOTE: In a real app, 'correct' index should probably be part of the data or logic, not hardcoded here by index.
     // For now, relying on the order of questions in dictionary matching current order.
 

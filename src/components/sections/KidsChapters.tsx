@@ -10,7 +10,8 @@ import { cn } from "@/lib/utils";
 
 export default function KidsChapters() {
     const { language } = useLanguage();
-    const chapters = getKidsChapters(language);
+    const fullChapters = getKidsChapters(language);
+    const chapters = fullChapters.slice(0, 1); // Only show the first chapter as requested
     const [currentIndex, setCurrentIndex] = useState(0);
     const [badgeEarned, setBadgeEarned] = useState<number[]>([]);
 

@@ -22,10 +22,14 @@ const reflections = [
 ];
 
 import { useLanguage } from "@/lib/LanguageContext";
+import { useKidsMode } from "@/lib/KidsModeContext";
 
 export default function Reflections() {
     const { t } = useLanguage();
+    const { isKidsMode } = useKidsMode();
     const [activeIndex, setActiveIndex] = useState<number | null>(null);
+
+    if (isKidsMode) return null;
 
     return (
         <Section id="reflections" background="white" className="py-24">

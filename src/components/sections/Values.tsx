@@ -40,9 +40,14 @@ const values = [
 ];
 
 import { useLanguage } from "@/lib/LanguageContext";
+import { useKidsMode } from "@/lib/KidsModeContext";
 
 export default function Values() {
     const { t } = useLanguage();
+    const { isKidsMode } = useKidsMode();
+
+    if (isKidsMode) return null;
+
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
     // Map icons to the translated items based on index

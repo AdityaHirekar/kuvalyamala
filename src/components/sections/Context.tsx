@@ -5,9 +5,13 @@ import { motion } from "framer-motion";
 import { Feather, Hourglass, Languages, ScrollText } from "lucide-react";
 import Section from "@/components/ui/Section";
 import { useLanguage } from "@/lib/LanguageContext";
+import { useKidsMode } from "@/lib/KidsModeContext";
 
 export default function Context() {
     const { t } = useLanguage();
+    const { isKidsMode } = useKidsMode();
+
+    if (isKidsMode) return null;
 
     const contextItems = [
         {
