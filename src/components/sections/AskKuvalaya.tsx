@@ -169,9 +169,13 @@ export default function AskKuvalaya() {
                                 <button
                                     key={idx}
                                     onClick={() => startChat(prompt)}
-                                    className="px-4 py-2 bg-white/60 border border-ink/10 rounded-full text-ink/80 text-sm hover:bg-maroon/10 hover:border-maroon/30 hover:text-maroon transition-all duration-300 font-serif"
+                                    className={`px-4 py-2 transition-all duration-300 rounded-full
+                                        ${isKidsMode
+                                            ? "bg-white border-2 border-orange-200 text-orange-600 font-bold hover:bg-orange-50 hover:scale-110 cursor-pointer shadow-sm"
+                                            : "bg-white/60 border border-ink/10 text-ink/80 text-sm hover:bg-maroon/10 hover:border-maroon/30 hover:text-maroon font-serif"
+                                        }`}
                                 >
-                                    "{prompt}"
+                                    {isKidsMode ? "💬 " : "\""}{prompt}{isKidsMode ? "" : "\""}
                                 </button>
                             ))}
                         </div>
@@ -180,9 +184,13 @@ export default function AskKuvalaya() {
                             <Button
                                 onClick={() => startChat()}
                                 size="lg"
-                                className="bg-maroon text-white hover:bg-maroon/90 px-8 py-4 text-lg shadow-xl shadow-maroon/20"
+                                className={`px-8 py-4 text-lg shadow-xl transition-all duration-300
+                                    ${isKidsMode
+                                        ? "bg-orange-500 hover:bg-orange-400 text-white rounded-3xl border-4 border-yellow-300 font-bold hover:scale-105 hover:rotate-1"
+                                        : "bg-maroon text-white hover:bg-maroon/90 shadow-maroon/20 font-serif"
+                                    }`}
                             >
-                                {content.start}
+                                {isKidsMode ? "✨ " : ""}{content.start}{isKidsMode ? " 🚀" : ""}
                             </Button>
                         </div>
 
