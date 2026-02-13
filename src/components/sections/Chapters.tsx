@@ -27,6 +27,8 @@ import { ReflectionOption } from "@/components/ui/ReflectionModal";
 
 import { getChapters, Chapter } from "@/lib/chaptersData";
 import { useLanguage } from "@/lib/LanguageContext";
+import { useKidsMode } from "@/lib/KidsModeContext";
+import KidsChapters from "@/components/sections/KidsChapters";
 
 export { getChapters }; // Replacing export { chapters } 
 
@@ -36,6 +38,7 @@ import { useReflection } from "@/lib/ReflectionContext";
 
 export default function Chapters() {
     const { language, t } = useLanguage();
+    const { isKidsMode } = useKidsMode();
     const chapters = getChapters(language);
 
     const [activeTheme, setActiveTheme] = useState<{ label: string; desc: string; modern: string } | null>(null);

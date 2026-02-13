@@ -19,32 +19,48 @@ import ReflectionsSummary from "@/components/sections/ReflectionsSummary";
 import AskKuvalaya from "@/components/sections/AskKuvalaya";
 import { LanguageProvider } from "@/lib/LanguageContext";
 import LanguageSwitcher from "@/components/ui/LanguageSwitcher";
+import { KidsModeProvider } from "@/lib/KidsModeContext"; // Added KidsModeProvider import
+import KidsModeToggle from "@/components/ui/KidsModeToggle";
 
 export default function Home() {
   return (
     <LanguageProvider>
-      <AudioProvider>
-        <VerseProvider>
-          <ReflectionProvider>
-            <main className="min-h-screen bg-paper overflow-x-hidden w-full m-0 p-0 selection:bg-maroon selection:text-white relative">
-              <GlobalAudioPlayer />
-              <GlobalMute />
-              <VerseGlobalToggle />
-              <ReflectionToggle />
-              <LanguageSwitcher />
-              <Hero />
-              <Context />
-              <Chapters />
-              <Values />
-              <Reflections />
-              <Quiz />
-              <ReflectionsSummary />
-              <AskKuvalaya />
-              <Footer />
-            </main>
-          </ReflectionProvider>
-        </VerseProvider>
-      </AudioProvider>
+      <KidsModeProvider>
+        <AudioProvider>
+          <VerseProvider>
+            <ReflectionProvider>
+              <div className="relative min-h-screen font-sans text-ink bg-paper selection:bg-maroon/20">
+                {/* Fixed UI Elements */}
+                <ReflectionToggle />
+                <VerseGlobalToggle />
+                <GlobalMute />
+                <LanguageSwitcher />
+                <KidsModeToggle />
+
+                {/* Main Scrollable Content */}
+                <main className="relative z-10 flex flex-col min-h-screen">
+                  {/* Audio Player is global but part of the flow */}
+                  <GlobalAudioPlayer />
+
+                  {/* Sections */}
+                  <Hero />
+                  <Context />
+                  <Chapters />
+                  <Reflections />
+                  <Quiz /> {/* Changed QuizSection back to Quiz to match original import */}
+                  <Values />
+                  <AskKuvalaya />
+                  <Footer />
+                </main>
+
+                {/* Background Texture/Grain Overlay */}
+                <div className="fixed inset-0 z-0 pointer-events-none opacity-40 mix-blend-multiply bg-[url('/images/paper-texture.jpg')] bg-repeat opacity-5" />
+                <div className="fixed inset-0 z-50 pointer-events-none border-[12px] md:border-[20px] border-white/40" />
+              </div>
+            </ReflectionProvider>
+          </VerseProvider>
+        </AudioProvider>
+      </KidsModeProvider>
     </LanguageProvider>
   );
 }

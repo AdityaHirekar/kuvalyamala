@@ -184,6 +184,98 @@ const chaptersEn: Chapter[] = [
     }
 ];
 
+export interface KidsChapter {
+    id: number;
+    title: string;
+    narrative: string;
+    image: string;
+    // Simplified reflection for kids
+    reflection: {
+        question: string;
+        options: { text: string; feedback: string; isGood: boolean }[];
+    };
+    bg: string;
+    badge: string; // Icon name or label for the badge they earn
+}
+
+export const kidsChapters: KidsChapter[] = [
+    {
+        id: 1,
+        title: "The Sad Prince",
+        narrative: "Once upon a time, there was a Prince named Kuvalaya. He lived in a huge, shiny palace with gold towers and yummy food. He had everything a kid could want—toys, games, and comfy beds. But he felt bored and sad. He looked out the window and thought, 'Is having stuff all that matters?' He wanted something more than just toys. He wanted to be truly happy inside.",
+        image: "/images/chapter-1-v2.png",
+        reflection: {
+            question: "Have you ever felt bored even with all your toys?",
+            options: [
+                { text: "Yes, I want to do something new!", feedback: "That's how the Prince felt! Exploring is fun.", isGood: true },
+                { text: "No, I love my toys!", feedback: "Toys are great! But sometimes our hearts want to share or help others too.", isGood: true }
+            ]
+        },
+        bg: "bg-yellow-50",
+        badge: "Seeker Star"
+    },
+    {
+        id: 2,
+        title: "The Busy World",
+        narrative: "The Prince took off his fancy crown and walked outside. Wow! The world was SO big. He saw busy markets with people speaking many different languages—like a giant school playground! Some people were happy, but some were sad or hungry. He realized the world wasn't perfect like his palace. It was messy, but also beautiful.",
+        image: "/images/chapter-2.png",
+        reflection: {
+            question: "When you see someone new at school, what do you do?",
+            options: [
+                { text: "I walk away.", feedback: "It can be scary to say hi. The Prince was a bit scared too!", isGood: false },
+                { text: "I smile and say hello!", feedback: "You are kind! The Prince learned that meeting new people is special.", isGood: true }
+            ]
+        },
+        bg: "bg-orange-50",
+        badge: "Friendship Heart"
+    },
+    {
+        id: 3,
+        title: "Making Good Choices",
+        narrative: "Kuvalaya met many people on his walk. He saw that when people were angry, they made others sad. But when they were kind, they made others happy! It was like magic. He realized that being kind or angry is a choice we make in our heads. He wanted to be the master of his own choices.",
+        image: "/images/chapter-3.png",
+        reflection: {
+            question: "If your friend accidentally breaks your toy, what is the kind choice?",
+            options: [
+                { text: "Yell at them!", feedback: "That might make them sad. Accidents happen!", isGood: false },
+                { text: "Say 'It's okay' and help fix it.", feedback: "Wow! You are a superhero of kindness!", isGood: true }
+            ]
+        },
+        bg: "bg-blue-50",
+        badge: "Kindness Shield"
+    },
+    {
+        id: 4,
+        title: "The Teacher's Secret",
+        narrative: "He met a wise teacher sitting under a tree. The teacher was very quiet and peaceful. He told the Prince, 'The world is like a mirror. If you smile at it, it smiles back. If you frown, it frowns.' He explained that stopping violence starts with stopping angry thoughts in our own heads.",
+        image: "/images/chapter-4.png",
+        reflection: {
+            question: "What do you do when you feel angry?",
+            options: [
+                { text: "I take a deep breath.", feedback: "Perfect! Breathing helps us calm down like the wise teacher.", isGood: true },
+                { text: "I hit something.", feedback: "Oh no! Hitting hurts. Next time, try counting to 10!", isGood: false }
+            ]
+        },
+        bg: "bg-green-50",
+        badge: "Peace Dove"
+    },
+    {
+        id: 5,
+        title: "The Happy Hero",
+        narrative: "Finally, the Prince closed his eyes and looked inside his own heart. He let go of being 'The Prince' and just became 'Kuvalaya'. He felt light as a feather! He didn't need a crown to be special. He was happy just being himself and helping others. He became a real hero—not by fighting, but by loving.",
+        image: "/images/chapter-5.png",
+        reflection: {
+            question: "What makes you a real hero?",
+            options: [
+                { text: "Being stronger than everyone.", feedback: "Strength is good, but kindness is stronger!", isGood: false },
+                { text: "Being kind and honest.", feedback: "Yes! Real heroes have big, kind hearts like you.", isGood: true }
+            ]
+        },
+        bg: "bg-purple-50",
+        badge: "Hero Crown"
+    }
+];
+
 export const getChapters = (lang: Language): Chapter[] => {
     // For now, return English for all languages. 
     // In future, this can switch based on 'lang'.
@@ -193,4 +285,8 @@ export const getChapters = (lang: Language): Chapter[] => {
     // TODO: Create full translations for other languages.
     // Returning English as fallback for now to prevent breaking.
     return chaptersEn;
+};
+
+export const getKidsChapters = (lang: Language): KidsChapter[] => {
+    return kidsChapters;
 };

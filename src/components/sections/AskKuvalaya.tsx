@@ -19,6 +19,7 @@ const promptChips = [
 ];
 
 import { useLanguage } from "@/lib/LanguageContext";
+import { useKidsMode } from "@/lib/KidsModeContext";
 
 interface Message {
     role: "user" | "kuvalaya";
@@ -27,6 +28,7 @@ interface Message {
 
 export default function AskKuvalaya() {
     const { t } = useLanguage();
+    const { isKidsMode } = useKidsMode();
     const [isActive, setIsActive] = useState(false);
     const [messages, setMessages] = useState<Message[]>([]);
     const [inputValue, setInputValue] = useState("");
@@ -52,7 +54,7 @@ export default function AskKuvalaya() {
             const response = await fetch("/api/chat", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ messages: currentMessages }),
+                body: JSON.stringify({ messages: currentMessages, kidsMode: isKidsMode }),
             });
 
             if (!response.ok) {
